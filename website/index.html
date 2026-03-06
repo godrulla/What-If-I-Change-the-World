@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Craziest Idea in the World — Stories for Young Dreamers</title>
+<meta name="description" content="A children's book of true stories about young dreamers who changed the world. By Armando Diaz Silverio.">
+<!-- Favicon: crazy face emoji -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤪</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤪</text></svg>">
+<!-- Open Graph / Social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Craziest Idea in the World 🤪">
+<meta property="og:description" content="13 true stories about kids who did impossible things — and the one secret they all share. Now with playable retro games!">
+<meta property="og:image" content="images/00_cover/cover.jpg">
+<meta property="og:image:width" content="800">
+<meta property="og:image:height" content="1200">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="es_DO">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Craziest Idea in the World 🤪">
+<meta name="twitter:description" content="13 true stories about kids who did impossible things — now with playable retro games!">
+<meta name="twitter:image" content="images/00_cover/cover.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FFF8F0;
+  --text: #2D2A26;
+  --accent: #E8553A;
+  --accent2: #F4A623;
+  --accent3: #3AAFB9;
+  --accent4: #7B68EE;
+  --card-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  --radius: 20px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 { font-family: 'Fredoka', sans-serif; }
+
+/* ===== NAVBAR ===== */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(255,248,240,0.92);
+  backdrop-filter: blur(12px);
+  padding: 12px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 2px solid rgba(0,0,0,0.06);
+  transition: transform 0.3s;
+}
+.navbar.hidden { transform: translateY(-100%); }
+.nav-logo {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--accent);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.nav-links { display: flex; align-items: center; gap: 16px; }
+.nav-links a {
+  text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.9rem;
+  opacity: 0.7; transition: opacity 0.2s;
+}
+.nav-links a:hover { opacity: 1; }
+.lang-toggle {
+  background: var(--accent); color: white; border: none; border-radius: 30px;
+  padding: 6px 16px; font-family: 'Fredoka'; font-size: 0.85rem;
+  cursor: pointer; font-weight: 600; transition: background 0.2s;
+}
+.lang-toggle:hover { background: #d14530; }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  padding: 80px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(232,85,58,0.08) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 80%, rgba(58,175,185,0.08) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 50%, rgba(244,166,35,0.06) 0%, transparent 60%);
+}
+.hero-content {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; gap: 60px;
+  max-width: 1100px; width: 100%;
+  flex-wrap: wrap; justify-content: center;
+}
+.hero-book {
+  width: 320px; flex-shrink: 0;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2), 0 0 0 4px rgba(255,255,255,0.5);
+  transform: perspective(800px) rotateY(-5deg);
+  transition: transform 0.4s;
+}
+.hero-book:hover { transform: perspective(800px) rotateY(0deg) scale(1.02); }
+.hero-text { max-width: 480px; text-align: left; }
+.hero-text h1 {
+  font-size: 2.8rem; line-height: 1.15;
+  color: var(--accent); margin-bottom: 8px;
+}
+.hero-text .subtitle {
+  font-family: 'Fredoka'; font-size: 1.3rem; color: var(--accent2);
+  margin-bottom: 16px; font-weight: 500;
+}
+.hero-text .author {
+  font-size: 1.05rem; font-weight: 700; margin-bottom: 20px; opacity: 0.7;
+}
+.hero-text p {
+  font-size: 1.05rem; margin-bottom: 24px; opacity: 0.85;
+}
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--accent); color: white; text-decoration: none;
+  padding: 14px 32px; border-radius: 50px;
+  font-family: 'Fredoka'; font-size: 1.1rem; font-weight: 600;
+  box-shadow: 0 6px 20px rgba(232,85,58,0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.hero-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(232,85,58,0.4); }
+.hero-cta svg { width: 20px; height: 20px; }
+
+/* ===== FLOATING SHAPES ===== */
+.shapes { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.shape {
+  position: absolute; border-radius: 50%; opacity: 0.08;
+  animation: float 20s ease-in-out infinite;
+}
+.shape:nth-child(1) { width: 300px; height: 300px; background: var(--accent); top: 10%; left: -5%; animation-delay: 0s; }
+.shape:nth-child(2) { width: 200px; height: 200px; background: var(--accent3); top: 60%; right: -3%; animation-delay: -7s; }
+.shape:nth-child(3) { width: 250px; height: 250px; background: var(--accent2); bottom: 5%; left: 30%; animation-delay: -14s; }
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-30px) rotate(5deg); }
+  66% { transform: translateY(20px) rotate(-3deg); }
+}
+
+/* ===== INTRO SECTION ===== */
+.intro-section {
+  max-width: 800px; margin: 0 auto;
+  padding: 80px 24px;
+  text-align: center;
+}
+.intro-section h2 {
+  font-size: 2rem; color: var(--accent); margin-bottom: 24px;
+}
+.intro-section p {
+  font-size: 1.1rem; margin-bottom: 16px; opacity: 0.85;
+}
+.intro-section .signature {
+  font-style: italic; font-weight: 700; margin-top: 24px;
+  font-size: 1.1rem; color: var(--accent);
+}
+
+/* ===== STORIES GRID ===== */
+.stories-section {
+  padding: 40px 24px 80px;
+  max-width: 1200px; margin: 0 auto;
+}
+.stories-section > h2 {
+  text-align: center; font-size: 2.2rem;
+  color: var(--accent); margin-bottom: 48px;
+}
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 28px;
+}
+.story-card {
+  background: white; border-radius: var(--radius);
+  overflow: hidden; box-shadow: var(--card-shadow);
+  cursor: pointer; transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+}
+.story-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,0.15); }
+.story-card img {
+  width: 100%; aspect-ratio: 3/4; object-fit: cover;
+  display: block;
+}
+.story-card .card-body { padding: 20px; }
+.story-card .story-num {
+  font-family: 'Fredoka'; font-weight: 700;
+  font-size: 0.8rem; text-transform: uppercase;
+  letter-spacing: 1px; margin-bottom: 4px;
+}
+.story-card h3 {
+  font-size: 1.15rem; margin-bottom: 8px; line-height: 1.3;
+}
+.story-card .card-teaser {
+  font-size: 0.9rem; opacity: 0.7; line-height: 1.5;
+}
+/* Color-code each story card number */
+.story-card:nth-child(13n+1) .story-num { color: var(--accent); }
+.story-card:nth-child(13n+2) .story-num { color: #2E86AB; }
+.story-card:nth-child(13n+3) .story-num { color: var(--accent3); }
+.story-card:nth-child(13n+4) .story-num { color: #D4A017; }
+.story-card:nth-child(13n+5) .story-num { color: #8B5CF6; }
+.story-card:nth-child(13n+6) .story-num { color: #E8553A; }
+.story-card:nth-child(13n+7) .story-num { color: #22C55E; }
+.story-card:nth-child(13n+8) .story-num { color: #9F1239; }
+.story-card:nth-child(13n+9) .story-num { color: #0891B2; }
+.story-card:nth-child(13n+10) .story-num { color: #4338CA; }
+.story-card:nth-child(13n+11) .story-num { color: #B45309; }
+.story-card:nth-child(13n+12) .story-num { color: #059669; }
+.story-card:nth-child(13n+0) .story-num { color: #7C3AED; }
+
+/* ===== STORY READER (OVERLAY) ===== */
+.reader-overlay {
+  position: fixed; inset: 0; z-index: 2000;
+  background: var(--bg);
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reader-overlay.active { transform: translateY(0); }
+
+.reader-nav {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(255,248,240,0.95); backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 24px;
+  border-bottom: 2px solid rgba(0,0,0,0.06);
+}
+.reader-close {
+  background: none; border: none; cursor: pointer;
+  font-size: 1.5rem; opacity: 0.6; transition: opacity 0.2s;
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'Fredoka'; font-weight: 600; color: var(--text);
+}
+.reader-close:hover { opacity: 1; }
+.reader-prev-next { display: flex; gap: 10px; }
+.reader-prev-next button {
+  background: white; border: 2px solid rgba(0,0,0,0.1); border-radius: 50%;
+  width: 40px; height: 40px; cursor: pointer; font-size: 1.2rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+}
+.reader-prev-next button:hover { background: var(--accent); color: white; border-color: var(--accent); }
+.reader-prev-next button:disabled { opacity: 0.3; cursor: default; }
+.reader-prev-next button:disabled:hover { background: white; color: var(--text); border-color: rgba(0,0,0,0.1); }
+
+.reader-content {
+  max-width: 780px; margin: 0 auto; padding: 40px 24px 80px;
+}
+.reader-hero-img {
+  width: 100%; max-height: 520px; object-fit: cover;
+  border-radius: var(--radius); margin-bottom: 32px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+}
+.reader-content h1 {
+  font-size: 2.2rem; color: var(--accent); margin-bottom: 24px;
+  line-height: 1.2;
+}
+.reader-content p {
+  font-size: 1.1rem; margin-bottom: 18px;
+}
+.reader-content .story-image-pair {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  margin: 32px 0;
+}
+.reader-content .story-image-pair img {
+  width: 100%; border-radius: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+.reader-content .story-image-single {
+  margin: 32px 0; text-align: center;
+}
+.reader-content .story-image-single img {
+  width: 80%; max-width: 400px; border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+.reader-content .secret-box {
+  background: linear-gradient(135deg, #FFF5EB, #FFF0E0);
+  border-left: 5px solid var(--accent2);
+  border-radius: 0 16px 16px 0;
+  padding: 24px 28px; margin: 32px 0;
+  font-size: 1.05rem;
+}
+.reader-content .secret-box strong { color: var(--accent); }
+.reader-content strong { color: var(--accent); }
+.reader-content em { color: var(--accent4); }
+
+/* ===== YOUR TURN / OUTRO ===== */
+.outro-section {
+  background: linear-gradient(160deg, #FFF0E0 0%, #E8F8F9 50%, #F0EAFF 100%);
+  padding: 80px 24px;
+  text-align: center;
+}
+.outro-section .outro-inner { max-width: 700px; margin: 0 auto; }
+.outro-section h2 { font-size: 2.4rem; color: var(--accent); margin-bottom: 24px; }
+.outro-section p { font-size: 1.15rem; margin-bottom: 18px; }
+.outro-section .big-reveal {
+  font-family: 'Fredoka'; font-size: 1.8rem; font-weight: 700;
+  color: var(--accent); margin: 32px 0;
+}
+.outro-section .si-dios { font-style: italic; font-size: 1.3rem; color: var(--accent4); margin-top: 32px; }
+
+/* ===== DOWNLOAD SECTION ===== */
+.download-section {
+  padding: 80px 24px; text-align: center;
+  background: white;
+}
+.download-section h2 { font-size: 2rem; color: var(--accent); margin-bottom: 12px; }
+.download-section p { font-size: 1.05rem; opacity: 0.7; margin-bottom: 32px; }
+.download-cards { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+.download-card {
+  background: var(--bg); border-radius: var(--radius);
+  padding: 32px; width: 260px;
+  box-shadow: var(--card-shadow); transition: transform 0.3s;
+}
+.download-card:hover { transform: translateY(-4px); }
+.download-card .dl-icon { font-size: 2.5rem; margin-bottom: 12px; }
+.download-card h3 { font-size: 1.1rem; margin-bottom: 8px; }
+.download-card p { font-size: 0.85rem; opacity: 0.6; margin-bottom: 16px; }
+.download-card a {
+  display: inline-block; background: var(--accent); color: white;
+  text-decoration: none; padding: 10px 24px; border-radius: 30px;
+  font-family: 'Fredoka'; font-weight: 600; font-size: 0.9rem;
+  transition: background 0.2s;
+}
+.download-card a:hover { background: #d14530; }
+
+/* ===== ABOUT SECTION ===== */
+.about-section {
+  padding: 80px 24px; max-width: 700px; margin: 0 auto;
+  text-align: center;
+}
+.about-section h2 { font-size: 2rem; color: var(--accent); margin-bottom: 24px; }
+.about-section p { font-size: 1.05rem; margin-bottom: 16px; opacity: 0.85; }
+.about-section .email-link {
+  color: var(--accent); font-weight: 700; text-decoration: none;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  text-align: center; padding: 32px 24px;
+  font-size: 0.85rem; opacity: 0.5;
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .hero-content { flex-direction: column; text-align: center; }
+  .hero-book { width: 240px; transform: none; }
+  .hero-book:hover { transform: scale(1.02); }
+  .hero-text { text-align: center; }
+  .hero-text h1 { font-size: 2rem; }
+  .nav-links a.desk-only { display: none; }
+  .stories-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .reader-content h1 { font-size: 1.6rem; }
+  .reader-content .story-image-pair { grid-template-columns: 1fr; }
+  .outro-section .big-reveal { font-size: 1.4rem; }
+}
+@media (max-width: 480px) {
+  .stories-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; }
+  .hero-text h1 { font-size: 1.7rem; }
+}
+
+/* ===== GAME OVERLAY ===== */
+.game-overlay {
+  position: fixed; inset: 0; z-index: 3000;
+  background: rgba(0,0,0,0.92);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 12px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+  padding: 12px;
+}
+.game-overlay.active { opacity: 1; pointer-events: all; }
+.game-frame {
+  position: relative;
+  border: 4px solid #333;
+  border-radius: 8px;
+  box-shadow: 0 0 40px rgba(232,85,58,0.3), 0 0 80px rgba(232,85,58,0.1);
+  background: #000;
+  overflow: hidden;
+  max-width: 100%;
+}
+.game-frame canvas {
+  display: block;
+  width: min(640px, 100vw - 32px);
+  height: auto;
+  aspect-ratio: 4/3;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+/* CRT scanline effect */
+.game-frame::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    transparent 0px, transparent 2px,
+    rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px
+  );
+  pointer-events: none;
+  border-radius: 8px;
+}
+/* CRT corner vignette */
+.game-frame::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 1;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.35) 100%);
+  pointer-events: none;
+  border-radius: 8px;
+}
+.game-close-btn {
+  position: absolute; top: -40px; right: 0; z-index: 2;
+  background: #E8553A; color: white; border: none;
+  border-radius: 8px; padding: 8px 20px;
+  font-family: 'Fredoka', sans-serif; font-size: 0.95rem;
+  font-weight: 600; cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+.game-close-btn:hover { background: #d14530; transform: scale(1.05); }
+/* Sound toggle button */
+.game-sound-btn {
+  position: absolute; top: -40px; left: 0; z-index: 2;
+  background: #333; color: white; border: none;
+  border-radius: 8px; padding: 8px 16px;
+  font-family: 'Fredoka', sans-serif; font-size: 0.85rem;
+  font-weight: 600; cursor: pointer;
+  transition: background 0.2s;
+}
+.game-sound-btn:hover { background: #555; }
+/* Touch D-Pad — always visible on mobile */
+.game-touch-dpad {
+  display: none;
+  position: relative;
+  width: 160px; height: 160px;
+  flex-shrink: 0;
+}
+.game-controls-row {
+  display: none;
+  align-items: center; justify-content: center; gap: 40px;
+  width: 100%;
+}
+.dpad-btn {
+  position: absolute;
+  width: 52px; height: 52px;
+  background: rgba(255,255,255,0.12);
+  border: 2px solid rgba(255,255,255,0.25);
+  border-radius: 12px;
+  color: white; font-size: 1.5rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  transition: background 0.08s;
+}
+.dpad-btn:active, .dpad-btn.pressed { background: rgba(232,85,58,0.6); border-color: #E8553A; }
+.dpad-up    { top: 0; left: 54px; }
+.dpad-down  { bottom: 0; left: 54px; }
+.dpad-left  { top: 54px; left: 0; }
+.dpad-right { top: 54px; right: 0; }
+.game-action-btns {
+  display: flex; flex-direction: column; gap: 12px; align-items: center;
+}
+.action-btn {
+  width: 64px; height: 64px;
+  background: rgba(232,85,58,0.25);
+  border: 3px solid rgba(232,85,58,0.5);
+  border-radius: 50%;
+  color: white; font-size: 0.8rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+.action-btn:active, .action-btn.pressed { background: rgba(232,85,58,0.7); }
+.action-btn.small { width: 44px; height: 44px; font-size: 0.65rem; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+@media (hover: none) and (pointer: coarse), (max-width: 768px) {
+  .game-touch-dpad { display: block; }
+  .game-controls-row { display: flex; }
+  .game-frame canvas {
+    width: min(640px, 100vw - 24px);
+  }
+  .game-close-btn { top: -36px; padding: 6px 14px; font-size: 0.85rem; }
+  .game-sound-btn { top: -36px; padding: 6px 12px; font-size: 0.75rem; }
+}
+@media (max-height: 600px) and (hover: none) {
+  .game-frame canvas { width: min(400px, 90vw); }
+  .game-touch-dpad { width: 120px; height: 120px; }
+  .dpad-btn { width: 38px; height: 38px; font-size: 1.1rem; }
+  .dpad-up { left: 41px; } .dpad-down { left: 41px; }
+  .dpad-left { top: 41px; } .dpad-right { top: 41px; }
+  .action-btn { width: 50px; height: 50px; }
+}
+/* Play button on story cards */
+.play-game-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--accent4); color: white; border: none;
+  border-radius: 20px; padding: 6px 14px;
+  font-family: 'Fredoka', sans-serif; font-size: 0.8rem;
+  font-weight: 600; cursor: pointer;
+  margin-top: 8px; transition: background 0.2s, transform 0.2s;
+}
+.play-game-btn:hover:not(.locked) { background: #6352d4; transform: scale(1.05); }
+.play-game-btn.locked {
+  background: #999; cursor: not-allowed; opacity: 0.7;
+}
+.play-game-btn.locked:hover { background: #999; transform: none; }
+
+/* ===== ANIMATIONS ===== */
+.fade-up {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* Scroll progress */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+  z-index: 1001; transition: width 0.1s;
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-logo" onclick="scrollToTop()">
+    <span data-en="The Craziest Idea" data-es="La Idea Más Loca">The Craziest Idea</span>
+  </div>
+  <div class="nav-links">
+    <a href="#stories" class="desk-only" data-en="Stories" data-es="Cuentos">Stories</a>
+    <a href="#downloads" class="desk-only" data-en="Download" data-es="Descargar">Download</a>
+    <a href="#about" class="desk-only" data-en="About" data-es="Acerca de">About</a>
+    <button class="lang-toggle" onclick="toggleLang()" id="langBtn">ES</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="shapes">
+    <div class="shape"></div><div class="shape"></div><div class="shape"></div>
+  </div>
+  <div class="hero-content">
+    <img src="images/00_cover/cover.jpg" alt="Book Cover" class="hero-book">
+    <div class="hero-text">
+      <h1 data-en="The Craziest Idea in the World" data-es="La Idea Más Loca del Mundo">The Craziest Idea in the World</h1>
+      <div class="subtitle" data-en="Stories for Young Dreamers" data-es="Cuentos para Jóvenes Soñadores">Stories for Young Dreamers</div>
+      <div class="author" data-en="By Armando Diaz Silverio" data-es="Por Armando Diaz Silverio">By Armando Diaz Silverio</div>
+      <p data-en="Twelve true stories about kids who did impossible things — and the one secret they all share."
+         data-es="Doce historias reales sobre niños que hicieron cosas imposibles — y el único secreto que todos comparten.">
+        Twelve true stories about kids who did impossible things — and the one secret they all share.
+      </p>
+      <a href="#stories" class="hero-cta">
+        <span data-en="Start Reading" data-es="Empezar a Leer">Start Reading</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="intro-section fade-up" id="intro">
+  <h2 data-en="Before You Begin" data-es="Antes de Comenzar">Before You Begin</h2>
+  <p data-en="I'm going to be blunt with you. The craziest idea in the world is that any child — any kid, anywhere, no matter how small, how young, how invisible they feel — has the power to change the world."
+     data-es="Voy a ser directo contigo. La idea más loca del mundo es que cualquier niño — cualquier chamaco, en cualquier lugar, sin importar lo pequeño, lo joven, o lo invisible que se sienta — tiene el poder de cambiar el mundo.">
+    I'm going to be blunt with you. The craziest idea in the world is that any child — any kid, anywhere, no matter how small, how young, how invisible they feel — has the power to change the world.
+  </p>
+  <p data-en="Most adults don't actually believe it. They say 'be realistic.' They say 'you're too young.' But I believe it. And I'm not going to just ask you to take my word for it. I'm going to prove it."
+     data-es="La mayoría de los adultos no lo creen de verdad. Dicen 'sé realista.' Dicen 'eres muy joven.' Pero yo sí lo creo. Y no te voy a pedir que me creas solo porque sí. Te lo voy a demostrar.">
+    Most adults don't actually believe it. They say "be realistic." They say "you're too young." But I believe it. And I'm not going to just ask you to take my word for it. I'm going to prove it.
+  </p>
+  <p data-en="Here are thirteen true stories. Thirteen kids who did something the world said was impossible. By the time you finish, I think you'll look in the mirror and whisper: What if I change the world? What if my idea is not that crazy?"
+     data-es="Aquí hay trece historias verdaderas. Trece niños que hicieron algo que el mundo decía que era imposible. Para cuando termines, creo que te vas a mirar al espejo y vas a susurrar: ¿Y si yo cambio el mundo? ¿Y si mi idea no es tan loca?">
+    Here are thirteen true stories. Thirteen kids who did something the world said was impossible. By the time you finish, I think you'll look in the mirror and whisper: <em>What if I change the world? What if my idea is not that crazy?</em>
+  </p>
+  <div class="signature">— Armando</div>
+</section>
+
+<!-- STORIES GRID -->
+<section class="stories-section" id="stories">
+  <h2 class="fade-up" data-en="The Stories" data-es="Los Cuentos">The Stories</h2>
+  <div class="stories-grid" id="storiesGrid">
+    <!-- Cards injected by JS -->
+  </div>
+</section>
+
+<!-- YOUR TURN / OUTRO -->
+<section class="outro-section" id="yourturn">
+  <div class="outro-inner fade-up">
+    <h2 data-en="Your Turn" data-es="Tu Turno">Your Turn</h2>
+    <p data-en="Now you know. The craziest idea in the world is this:"
+       data-es="Ahora lo sabes. La idea más loca del mundo es esta:">
+      Now you know. The craziest idea in the world is this:
+    </p>
+    <div class="big-reveal" data-en="What if I change the world?" data-es="¿Y si yo cambio el mundo?">What if I change the world?</div>
+    <p data-en="They didn't have superpowers. They didn't have magic. They had something better. They had TIME. You have more of it than anyone."
+       data-es="No tenían superpoderes. No tenían magia. Tenían algo mejor. Tenían TIEMPO. Tú tienes más que nadie.">
+      They didn't have superpowers. They didn't have magic. They had something better. They had TIME. You have more of it than anyone.
+    </p>
+    <p data-en="The world is changed by people who see something and decide this matters more than my fear."
+       data-es="El mundo lo cambian personas que ven algo y deciden esto importa más que mi miedo.">
+      The world is changed by people who see something and decide <em>this matters more than my fear.</em>
+    </p>
+    <div class="si-dios">Si Dios quiere.</div>
+  </div>
+</section>
+
+<!-- DOWNLOADS -->
+<section class="download-section" id="downloads">
+  <h2 class="fade-up" data-en="Take the Stories With You" data-es="Llévate los Cuentos">Take the Stories With You</h2>
+  <p data-en="Download the beautifully illustrated book as a PDF." data-es="Descarga el libro bellamente ilustrado en PDF.">Download the beautifully illustrated book as a PDF.</p>
+  <div class="download-cards">
+    <div class="download-card fade-up">
+      <div class="dl-icon">🇺🇸</div>
+      <h3>English Edition</h3>
+      <p data-en="PDF · 56 pages · Full color" data-es="PDF · 56 paginas · A todo color">PDF · 56 pages · Full color</p>
+      <a href="mailto:armandodiazsilverio@gmail.com?subject=Book%20Download%20Request" data-en="Request PDF" data-es="Solicitar PDF">Request PDF</a>
+    </div>
+    <div class="download-card fade-up">
+      <div class="dl-icon">🇩🇴</div>
+      <h3>Edicion en Espanol</h3>
+      <p data-en="PDF · 56 pages · Full color" data-es="PDF · 56 paginas · A todo color">PDF · 56 pages · Full color</p>
+      <a href="mailto:armandodiazsilverio@gmail.com?subject=Solicitud%20de%20Descarga" data-en="Request PDF" data-es="Solicitar PDF">Request PDF</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <h2 class="fade-up" data-en="About the Author" data-es="Sobre el Autor">About the Author</h2>
+  <p data-en="Armando Diaz Silverio wrote these stories because he believes every kid deserves to know the craziest idea in the world — before anyone tells them it's impossible."
+     data-es="Armando Diaz Silverio escribió estos cuentos porque cree que todo niño merece conocer la idea más loca del mundo — antes de que alguien les diga que es imposible.">
+    Armando Diaz Silverio wrote these stories because he believes every kid deserves to know the craziest idea in the world — before anyone tells them it's impossible.
+  </p>
+  <p>
+    <a class="email-link" href="mailto:armandodiazsilverio@gmail.com">armandodiazsilverio@gmail.com</a>
+  </p>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>© 2026 Armando Diaz Silverio. All rights reserved.</p>
+</footer>
+
+<!-- GAME OVERLAY -->
+<div class="game-overlay" id="gameOverlay">
+  <div class="game-frame" id="gameFrame">
+    <button class="game-sound-btn" id="gameSoundBtn" onclick="toggleGameSound()">SND ON</button>
+    <button class="game-close-btn" id="gameCloseBtn">CLOSE</button>
+    <canvas id="gameCanvas" width="640" height="480"></canvas>
+  </div>
+  <div class="game-controls-row">
+    <div class="game-touch-dpad" id="gameTouchDpad">
+      <div class="dpad-btn dpad-up" id="dpadUp">&#9650;</div>
+      <div class="dpad-btn dpad-down" id="dpadDown">&#9660;</div>
+      <div class="dpad-btn dpad-left" id="dpadLeft">&#9664;</div>
+      <div class="dpad-btn dpad-right" id="dpadRight">&#9654;</div>
+    </div>
+    <div class="game-action-btns">
+      <div class="action-btn" id="dpadAction">ACT</div>
+      <div class="action-btn small" id="dpadMute" onclick="toggleGameSound()">SND</div>
+    </div>
+  </div>
+</div>
+
+<!-- STORY READER OVERLAY -->
+<div class="reader-overlay" id="readerOverlay">
+  <div class="reader-nav">
+    <button class="reader-close" onclick="closeReader()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      <span data-en="Back" data-es="Volver">Back</span>
+    </button>
+    <div class="reader-prev-next">
+      <button onclick="prevStory()" id="prevBtn" title="Previous">‹</button>
+      <button onclick="nextStory()" id="nextBtn" title="Next">›</button>
+    </div>
+  </div>
+  <div class="reader-content" id="readerContent"></div>
+</div>
+
+<script src="games/engine/audio.js"></script>
+<script src="games/engine/particles.js"></script>
+<script src="games/engine/game-engine.js"></script>
+<script src="games/engine/tile-map.js"></script>
+<script src="games/engine/sprite.js"></script>
+<script src="games/engine/collision.js"></script>
+<script src="games/engine/ui.js"></script>
+<script src="games/game-loader.js"></script>
+<script src="games/configs/game-01.js"></script>
+<script src="games/configs/game-02.js"></script>
+<script src="games/configs/game-03.js"></script>
+<script src="games/configs/game-04.js"></script>
+<script src="games/configs/game-05.js"></script>
+<script src="games/configs/game-06.js"></script>
+<script src="games/configs/game-07.js"></script>
+<script src="games/configs/game-08.js"></script>
+<script src="games/configs/game-09.js"></script>
+<script src="games/configs/game-10.js"></script>
+<script src="games/configs/game-11.js"></script>
+<script src="games/configs/game-12.js"></script>
+<script src="games/configs/game-13.js"></script>
+
+<script>
+// ===== STORY DATA =====
+const STORIES = [
+  {
+    num: 1, folder: "01_boy_who_caught_the_wind",
+    color: "#E8553A",
+    en: {
+      title: "The Boy Who Caught the Wind",
+      teaser: "A 14-year-old in Malawi built a windmill from scrap — and lit up his village.",
+      paragraphs: [
+        "William Kamkwamba lived in a small village called Wimbe, in Malawi, Africa. His family grew maize and tobacco — when the rains came. When the rains didn't come, they went hungry.",
+        "When William was fourteen, a terrible famine hit. Crops died. Food disappeared. His family couldn't afford to pay his school fees anymore. Just like that — no more school. No more lessons. No more future. Or so it seemed.",
+        "But William discovered something: a small library in his village. He read whatever he could find. One book grabbed him — an American textbook called <em>Using Energy</em>, filled with pictures of windmills.",
+        "SPLIT_IMAGE_1_2",
+        "His friends thought he'd lost it. \"Build a windmill? From what, William? From dreams?\"",
+        "But William had spotted something: a scrapyard at the edge of the village. Where most people saw garbage, William saw treasure. He started collecting — a bicycle wheel here, a tractor fan there, some PVC pipes, a bicycle frame.",
+        "For weeks, he worked. He tied blue gum tree branches together for the tower. He connected the bicycle wheel to a small generator. He wired light bulbs to the system.",
+        "SPLIT_IMAGE_3_4",
+        "Then came the moment. William connected the wires. The wind pushed the blades. The bicycle wheel turned. And a light bulb — the first electric light his family had ever had — glowed bright in their home.",
+        "His mother screamed with joy. Neighbors ran to see. Then they came with their cell phones: \"Can we charge them here?\" And William said yes.",
+        "A fourteen-year-old boy. A library book. A scrapyard full of junk. And a 16-foot windmill that brought electricity to a village that had never had it.",
+        "Word spread. Journalists came. Then TED conferences. Then a scholarship. William went back to school, graduated, and eventually earned a degree from Dartmouth College. He started the Moving Windmills Project, teaching kids across Africa how to build their own."
+      ],
+      secret: "You don't need money. You don't need fancy tools. You don't need permission. William had a library book and a pile of junk — and he lit up his whole village. The next time someone says you don't have enough to make a difference, remember: the wind was always blowing in Wimbe. William was just the first person brave enough to catch it."
+    },
+    es: {
+      title: "El Niño que Atrapó el Viento",
+      teaser: "Un niño de 14 años en Malaui construyó un molino de chatarra — e iluminó su aldea.",
+      paragraphs: [
+        "William Kamkwamba vivía en una pequeña aldea llamada Wimbe, en Malaui, África. Su familia cultivaba maíz y tabaco — cuando llegaban las lluvias. Cuando las lluvias no llegaban, pasaban hambre.",
+        "Cuando William tenía catorce años, una terrible hambruna golpeó. Los cultivos murieron. La comida desapareció. Su familia ya no podía pagar las cuotas de la escuela. Así como así — se acabó la escuela.",
+        "Pero William descubrió algo: una pequeña biblioteca en su aldea. Leía lo que encontrara. Un libro lo atrapó — un libro de texto estadounidense llamado <em>Using Energy</em>, lleno de fotos de molinos de viento.",
+        "SPLIT_IMAGE_1_2",
+        "Sus amigos pensaron que se había vuelto loco. \"¿Construir un molino? ¿De qué, William? ¿De sueños?\"",
+        "Pero William había notado algo: un depósito de chatarra al borde de la aldea. Donde la mayoría veía basura, William veía tesoros. Empezó a recolectar — una rueda de bicicleta por aquí, un ventilador de tractor por allá.",
+        "Durante semanas, trabajó. Ató ramas de eucalipto para la torre. Conectó la rueda de bicicleta a un pequeño generador. Cableó bombillas al sistema.",
+        "SPLIT_IMAGE_3_4",
+        "Entonces llegó el momento. William conectó los cables. El viento empujó las aspas. La rueda de bicicleta giró. Y una bombilla — la primera luz eléctrica que su familia había tenido — brilló en su hogar.",
+        "Su madre gritó de alegría. Los vecinos corrieron a ver. Luego vinieron con sus celulares: \"¿Podemos cargarlos aquí?\" Y William dijo que sí.",
+        "Un niño de catorce años. Un libro de biblioteca. Un depósito lleno de chatarra. Y un molino de viento de 5 metros que trajo electricidad a una aldea que nunca la había tenido.",
+        "La noticia se esparció. Vinieron periodistas. Luego conferencias TED. Luego una beca. William volvió a la escuela, se graduó, y eventualmente obtuvo un título de Dartmouth College. Creó el proyecto Moving Windmills."
+      ],
+      secret: "No necesitas dinero. No necesitas herramientas sofisticadas. No necesitas permiso. William tenía un libro de biblioteca y un montón de chatarra — e iluminó toda su aldea. La próxima vez que alguien diga que no tienes suficiente para hacer una diferencia, recuerda: el viento siempre soplaba en Wimbe. William fue simplemente el primero lo suficientemente valiente para atraparlo."
+    }
+  },
+  {
+    num: 2, folder: "02_boy_and_the_well", color: "#2E86AB",
+    en: { title: "The Boy and the Well", teaser: "A 6-year-old did chores to build a well — and changed a million lives.",
+      paragraphs: ["Ryan Hreljac was six years old when his teacher said something that changed his life. She said that in some parts of Africa, kids had to walk for hours just to get water. Not clean water. Just any water.","Ryan went home that day with a knot in his stomach. At dinner he said: \"I want to build them a well.\"","His parents said okay — if he could earn the money doing chores. Ryan did chores for four months. He earned seventy dollars. He brought it to an organization that builds wells in Africa.","SPLIT_IMAGE_1_2","They told him the truth: a well costs two thousand dollars.","Most kids would have stopped right there. But Ryan wasn't a grown-up. He was six. He didn't know that two thousand dollars was supposed to be impossible for a kid.","So he kept going. He did more chores. He told his friends. He gave speeches — at six years old, standing in front of rooms full of adults. His voice shook, but he kept talking.","SPLIT_IMAGE_3_4","His first well was built at a school called Angolo Primary, in northern Uganda. A kid named Akana Jimmy was the first to drink from it. Years later, Ryan and Akana became pen pals. Then they became friends. Then Akana's family was sponsored by Ryan's family to come to Canada. They became brothers.","A six-year-old did chores to build a well. And that well turned into a foundation that has now brought clean water to over one and a half million people in seventeen countries."],
+      secret: "You don't have to wait until you're older, richer, or smarter. The right time to start is whenever you feel the fire. Even at six."
+    },
+    es: { title: "El Niño y el Pozo", teaser: "Un niño de 6 años hizo tareas del hogar para construir un pozo — y cambió un millón de vidas.",
+      paragraphs: ["Ryan Hreljac tenía seis años cuando su maestra dijo algo que cambió su vida. Dijo que en algunas partes de África, los niños tenían que caminar durante horas solo para conseguir agua.","Ryan llegó a casa ese día con un nudo en el estómago. En la cena dijo: \"Quiero construirles un pozo.\"","Sus padres dijeron que sí — si podía ganar el dinero haciendo tareas. Ryan hizo tareas durante cuatro meses. Ganó setenta dólares. Los llevó a una organización que construye pozos en África.","SPLIT_IMAGE_1_2","Le dijeron la verdad: un pozo cuesta dos mil dólares.","La mayoría de los niños se habrían detenido ahí. Pero Ryan no era un adulto. Tenía seis años. No sabía que dos mil dólares se suponía que era imposible para un niño.","Así que siguió adelante. Hizo más tareas. Les contó a sus amigos. Dio discursos — a los seis años, parado frente a salones llenos de adultos.","SPLIT_IMAGE_3_4","Su primer pozo fue construido en una escuela llamada Angolo Primary, en el norte de Uganda. Un niño llamado Akana Jimmy fue el primero en beber de él. Años después, Ryan y Akana se hicieron amigos por correspondencia. Luego se hicieron amigos. Luego se convirtieron en hermanos.","Un niño de seis años hizo tareas para construir un pozo. Y ese pozo se convirtió en una fundación que ha llevado agua potable a más de un millón y medio de personas en diecisiete países."],
+      secret: "No tienes que esperar hasta ser mayor, más rico o más inteligente. El momento correcto para empezar es cuando sientas el fuego. Incluso a los seis."
+    }
+  },
+  {
+    num: 3, folder: "03_plastic_bags_and_fish", color: "#3AAFB9",
+    en: { title: "Plastic Bags and Fish", teaser: "A 16-year-old saw more plastic than fish in the ocean — and built a system to clean it.",
+      paragraphs: ["When Boyan Slat was sixteen years old, he went on a diving trip in Greece. He expected to see coral. He expected to see fish. Instead, he saw plastic bags. Everywhere.","Most people would have thought: <em>that's sad.</em> And then they would have forgotten about it by Tuesday. Boyan didn't forget.","SPLIT_IMAGE_1_2","He went home to the Netherlands and started asking a question that every expert said was pointless: <em>Why can't we clean the ocean?</em>","\"It's too big,\" they said. \"There's too much plastic,\" they said. \"It's impossible,\" they said.","But Boyan was sixteen. He hadn't learned that the ocean was supposed to be impossible to clean. For his high school science project, he studied ocean currents — how water moves in giant slow circles. He studied plastic — how it floats, drifts, and collects.","And he had an idea. What if, instead of chasing the plastic, you let the ocean BRING the plastic to you?","SPLIT_IMAGE_3_4","Everyone said it wouldn't work. He built it anyway.","At eighteen, he gave a talk that went viral. He dropped out of aerospace engineering school with just three hundred euros and started The Ocean Cleanup.","Today, his systems are actually working. In the Pacific Ocean. In rivers around the world. Pulling out millions of pounds of plastic."],
+      secret: "Sometimes the most important discoveries happen when you're paying attention to what everyone else ignores. That's called serendipity — finding something incredible when you weren't looking for it. But it only works if your eyes are open."
+    },
+    es: { title: "Bolsas de Plástico y Peces", teaser: "Un chico de 16 años vio más plástico que peces en el océano — y construyó un sistema para limpiarlo.",
+      paragraphs: ["Cuando Boyan Slat tenía dieciséis años, fue a bucear en Grecia. Esperaba ver coral. Esperaba ver peces. En cambio, vio bolsas de plástico. Por todas partes.","La mayoría habría pensado: <em>qué triste.</em> Y lo habría olvidado para el martes. Boyan no olvidó.","SPLIT_IMAGE_1_2","Volvió a casa en los Países Bajos y empezó a preguntar algo que todos los expertos decían que no tenía sentido: <em>¿Por qué no podemos limpiar el océano?</em>","\"Es demasiado grande,\" decían. \"Hay demasiado plástico,\" decían. \"Es imposible,\" decían.","Pero Boyan tenía dieciséis. No había aprendido que se suponía que limpiar el océano era imposible. Para su proyecto de ciencias, estudió las corrientes oceánicas y cómo el plástico flota y se acumula.","Y tuvo una idea. ¿Qué tal si, en vez de perseguir el plástico, dejas que el océano te TRAIGA el plástico?","SPLIT_IMAGE_3_4","Todos dijeron que no funcionaría. Lo construyó de todas formas.","A los dieciocho, dio una charla que se hizo viral. Dejó la universidad con solo trescientos euros y creó The Ocean Cleanup.","Hoy, sus sistemas están funcionando. En el Océano Pacífico. En ríos alrededor del mundo. Sacando millones de libras de plástico."],
+      secret: "A veces los descubrimientos más importantes suceden cuando prestas atención a lo que todos los demás ignoran. Eso se llama serendipia — encontrar algo increíble cuando no lo estabas buscando. Pero solo funciona si tienes los ojos abiertos."
+    }
+  },
+  {
+    num: 4, folder: "04_school_that_closed", color: "#D4A017",
+    en: { title: "The School That Closed", teaser: "An 8-year-old girl led 60 kids to find a new school — and never stopped fighting.",
+      paragraphs: ["Thandiwe Chama was eight years old when her school in Zambia closed. Not for a holiday. Not for repairs. Closed. Done.","She looked at her classmates — sixty kids with nowhere to go — and she said something brave: \"Let's walk to another school.\"","SPLIT_IMAGE_1_2","And they did. Sixty kids. Led by an eight-year-old girl with beaded clips in her hair and fire in her eyes. Walking dusty roads to a different school and telling the adults: \"We need to be here. We need to learn.\"","All sixty children were admitted.","But Thandiwe didn't stop. She realized that lots of kids were also dealing with HIV and AIDS. So she wrote a book. At eight. A children's book called <em>The Chicken with AIDS</em> that explained the disease in a way kids could understand.","SPLIT_IMAGE_3_4","By sixteen, Thandiwe had traveled to Kenya, South Africa, Paris, and New York, speaking about children's rights to education. She won the International Children's Peace Prize.","All because an eight-year-old girl looked at a closed door and said: \"No. We're going to find another one.\""],
+      secret: "When everyone around you accepts something unfair, you don't have to accept it too. Questioning \"the way things are\" is one of the bravest things a human being can do."
+    },
+    es: { title: "La Escuela que Cerró", teaser: "Una niña de 8 años llevó a 60 niños a encontrar una nueva escuela — y nunca dejó de luchar.",
+      paragraphs: ["Thandiwe Chama tenía ocho años cuando su escuela en Zambia cerró. No por vacaciones. No por reparaciones. Cerró. Se acabó.","Miró a sus compañeros — sesenta niños sin a dónde ir — y dijo algo valiente: \"Caminemos a otra escuela.\"","SPLIT_IMAGE_1_2","Y lo hicieron. Sesenta niños. Liderados por una niña de ocho años con clips de cuentas en el pelo y fuego en los ojos. Caminando por caminos polvorientos y diciendo a los adultos: \"Necesitamos estar aquí. Necesitamos aprender.\"","Los sesenta niños fueron admitidos.","Pero Thandiwe no se detuvo. Se dio cuenta de que muchos niños también enfrentaban el VIH y SIDA. Así que escribió un libro. A los ocho años. Un libro infantil que explicaba la enfermedad de una manera que los niños pudieran entender.","SPLIT_IMAGE_3_4","A los dieciséis, Thandiwe había viajado a Kenia, Sudáfrica, París y Nueva York, hablando sobre el derecho de los niños a la educación. Ganó el Premio Internacional de la Paz Infantil.","Todo porque una niña de ocho años miró una puerta cerrada y dijo: \"No. Vamos a encontrar otra.\""],
+      secret: "Cuando todos a tu alrededor aceptan algo injusto, tú no tienes que aceptarlo también. Cuestionar \"las cosas como son\" es una de las cosas más valientes que un ser humano puede hacer."
+    }
+  },
+  {
+    num: 5, folder: "05_washing_machine_of_wheels", color: "#8B5CF6",
+    en: { title: "The Washing Machine Made of Wheels", teaser: "A 14-year-old in India built a pedal-powered washing machine from bicycle parts.",
+      paragraphs: ["Remya Jose was fourteen, and she was tired. Her mother was sick. Her father was fighting cancer. So Remya and her twin sister washed the family's clothes by hand. Every day.","SPLIT_IMAGE_1_2","One day, Remya had a thought: <em>There has to be a better way.</em>","She didn't have money for a washing machine. She didn't have reliable electricity. So she INVENTED one. Using bicycle parts, a barrel, and whatever she could find, Remya built a pedal-powered washing machine.","It didn't work the first time. Or the second. Or the third. Each failure taught her something new.","SPLIT_IMAGE_3_4","Eventually, she built one that worked. It washed clothes without electricity. It doubled as exercise equipment. And it was made from parts anyone could find.","When she showed it at an innovation fair, the former President of India — Abdul Kalam — gave her a national award. She was a teenager from a poor village in Kerala, shaking hands with the president."],
+      secret: "Your problems are not just your problems. They're ideas in disguise. Every frustration, every \"there has to be a better way,\" is your brain trying to invent something. The kids who grow up with less often see MORE — because they have to. That's not a disadvantage. That's a superpower."
+    },
+    es: { title: "La Lavadora Hecha de Ruedas", teaser: "Una niña de 14 años en India construyó una lavadora a pedal con partes de bicicleta.",
+      paragraphs: ["Remya Jose tenía catorce años, y estaba agotada. Su madre estaba enferma. Su padre luchaba contra el cáncer. Así que Remya y su hermana gemela lavaban la ropa de la familia a mano. Todos los días.","SPLIT_IMAGE_1_2","Un día, Remya tuvo un pensamiento: <em>Tiene que haber una mejor manera.</em>","No tenía dinero para una lavadora. No tenía electricidad confiable. Así que INVENTÓ una. Usando partes de bicicleta, un barril y lo que pudo encontrar, Remya construyó una lavadora a pedal.","No funcionó la primera vez. Ni la segunda. Ni la tercera. Cada fallo le enseñó algo nuevo.","SPLIT_IMAGE_3_4","Finalmente, construyó una que funcionaba. Lavaba ropa sin electricidad. Servía como equipo de ejercicio. Y estaba hecha con partes que cualquiera podía encontrar.","Cuando la mostró en una feria de innovación, el ex Presidente de India — Abdul Kalam — le dio un premio nacional. Era una adolescente de una aldea pobre en Kerala, dándole la mano al presidente."],
+      secret: "Tus problemas no son solo tus problemas. Son ideas disfrazadas. Cada frustración, cada \"tiene que haber una mejor manera\", es tu cerebro intentando inventar algo. Los niños que crecen con menos a menudo ven MÁS — porque tienen que hacerlo. Eso no es una desventaja. Es un superpoder."
+    }
+  },
+  {
+    num: 6, folder: "06_girl_and_poisoned_water", color: "#E8553A",
+    en: { title: "The Girl and the Poisoned Water", teaser: "A 10-year-old saw kids getting sick from lead in their water — and invented a device to detect it.",
+      paragraphs: ["Gitanjali Rao was ten years old, watching the news about Flint, Michigan — a city where the water was poisoned with lead. Kids were getting sick. And the worst part? It had been going on for years.","Gitanjali felt something. Not just sadness — a kind of fire. <em>Why can't people know if their water is safe?</em>","SPLIT_IMAGE_1_2","She was ten. She didn't know anything about water testing or chemistry. But she knew that kids were getting sick and that felt WRONG.","So she started researching. She learned about carbon nanotubes — tiny structures that can detect chemicals in water. She contacted a scientist at 3M for help. It took over a year. Lots of failures.","But Gitanjali built a device called Tethys — named after the Greek goddess of water — that could test water for lead in minutes, at a fraction of the cost.","SPLIT_IMAGE_3_4","At fifteen, Time magazine named her the first-ever \"Kid of the Year.\" She was on the cover — the youngest person ever featured as a solo cover subject.","When someone asks Gitanjali when she decided she wanted to change the world, she says: \"I didn't decide. I just saw a problem and couldn't look away.\""],
+      secret: "You don't have to have all the answers before you start. Gitanjali didn't know what a carbon nanotube was when she started. She just knew kids were getting sick and that wasn't okay. The knowledge came BECAUSE she started. Not before."
+    },
+    es: { title: "La Niña y el Agua Envenenada", teaser: "Una niña de 10 años vio niños enfermándose por plomo en el agua — e inventó un dispositivo para detectarlo.",
+      paragraphs: ["Gitanjali Rao tenía diez años, viendo las noticias sobre Flint, Michigan — una ciudad donde el agua estaba envenenada con plomo. Los niños se enfermaban. ¿Y lo peor? Llevaba años así.","Gitanjali sintió algo. No solo tristeza — un tipo de fuego. <em>¿Por qué la gente no puede saber si su agua es segura?</em>","SPLIT_IMAGE_1_2","Tenía diez años. No sabía nada sobre pruebas de agua o química. Pero sabía que los niños se enfermaban y eso se sentía MAL.","Empezó a investigar. Aprendió sobre nanotubos de carbono — estructuras diminutas que pueden detectar químicos en el agua. Contactó a un científico de 3M. Tomó más de un año. Muchos fallos.","Pero Gitanjali construyó un dispositivo llamado Tethys — nombrado por la diosa griega del agua — que podía detectar plomo en minutos, a una fracción del costo.","SPLIT_IMAGE_3_4","A los quince, la revista Time la nombró la primera \"Niña del Año\". Estuvo en la portada — la persona más joven en aparecer como protagonista de una portada.","Cuando le preguntan a Gitanjali cuándo decidió que quería cambiar el mundo, ella dice: \"No decidí. Solo vi un problema y no pude mirar hacia otro lado.\""],
+      secret: "No tienes que tener todas las respuestas antes de empezar. Gitanjali no sabía qué era un nanotubo de carbono cuando empezó. Solo sabía que los niños se enfermaban y eso no estaba bien. El conocimiento vino PORQUE empezó. No antes."
+    }
+  },
+  {
+    num: 7, folder: "07_trees_that_changed_everything", color: "#22C55E",
+    en: { title: "The Trees That Changed Everything", teaser: "A 9-year-old's homework assignment grew into billions of trees in 75+ countries.",
+      paragraphs: ["Felix Finkbeiner was nine years old, and he had a homework assignment about climate change.","He read about Wangari Maathai, a Kenyan woman who won the Nobel Peace Prize for planting thirty million trees. And he thought: <em>What if kids did that?</em>","SPLIT_IMAGE_1_2","He presented the idea to his class. His teacher liked it. Word spread like seeds in the wind.","Two months later, Felix planted a small crab apple tree near his school entrance. He dug the hole himself. His classmates cheered.","One tree. Nine years old. A homework assignment.","SPLIT_IMAGE_3_4","That one tree became the Plant-for-the-Planet foundation. Today, that organization has inspired the planting of billions of trees across more than seventy-five countries. Their goal? One trillion trees.","Felix has spoken at the European Parliament and United Nations conferences. But it all started with one homework assignment that he took a little more seriously than he had to."],
+      secret: "You never know which moment is going to matter. A school project. A sentence in a book. A question at breakfast. Most of these moments will pass by. But every once in a while, one of them will knock on your door so loudly that you can't ignore it. When that happens — open the door."
+    },
+    es: { title: "Los Árboles que lo Cambiaron Todo", teaser: "La tarea escolar de un niño de 9 años creció hasta convertirse en miles de millones de árboles en más de 75 países.",
+      paragraphs: ["Felix Finkbeiner tenía nueve años y tenía una tarea sobre el cambio climático.","Leyó sobre Wangari Maathai, una mujer keniana que ganó el Premio Nobel de la Paz por plantar treinta millones de árboles. Y pensó: <em>¿Qué pasaría si los niños hicieran eso?</em>","SPLIT_IMAGE_1_2","Presentó la idea a su clase. A su maestra le gustó. La noticia se esparció como semillas en el viento.","Dos meses después, Felix plantó un pequeño manzano silvestre cerca de la entrada de su escuela. Cavó el hoyo él mismo.","Un árbol. Nueve años. Una tarea escolar.","SPLIT_IMAGE_3_4","Ese único árbol se convirtió en la fundación Plant-for-the-Planet. Hoy, esa organización ha inspirado la plantación de miles de millones de árboles en más de setenta y cinco países. ¿Su meta? Un billón de árboles.","Felix ha hablado en el Parlamento Europeo y en conferencias de las Naciones Unidas. Pero todo empezó con una tarea que se tomó un poco más en serio de lo necesario."],
+      secret: "Nunca sabes qué momento va a importar. Un proyecto escolar. Una frase en un libro. Una pregunta en el desayuno. La mayoría de estos momentos pasarán de largo. Pero de vez en cuando, uno de ellos tocará a tu puerta tan fuerte que no podrás ignorarlo. Cuando eso pase — abre la puerta."
+    }
+  },
+  {
+    num: 8, folder: "08_smallest_activist", color: "#9F1239",
+    en: { title: "The Smallest Activist", teaser: "A boy chained to a carpet loom became the voice that changed child labor laws forever.",
+      paragraphs: ["This is a hard story. But it's true, and it matters.","Iqbal Masih was four years old when his family, too poor to pay back a small debt, sent him to work at a carpet factory in Pakistan. He worked at a loom for six years. Twelve hours a day. His hands bled. He was chained to the loom.","SPLIT_IMAGE_1_2","When Iqbal was ten, he learned that Pakistan's Supreme Court had declared bonded child labor illegal. He was free. Legally, he had always been free. Nobody had told him.","Most people, after enduring something like that, would want to disappear. Iqbal didn't want to forget.","He started speaking. First to other kids like him. Then to organizations. Then to audiences in Sweden and the United States — a tiny boy standing on a stage, telling the world what was happening.","SPLIT_IMAGE_3_4","He told them: <em>Don't buy these carpets. Because a kid like me made them, and that kid isn't free.</em>","Iqbal was twelve years old when he was killed. He had been free for only two years. And in those two years, he changed the world's conscience about child labor forever.","Today, the United States Department of Labor gives an annual award in his name — the Iqbal Masih Award."],
+      secret: "Courage isn't the absence of fear. It's the decision that something matters more than your fear. Iqbal was scared. Of course he was. But he decided that the kids still trapped in factories mattered more. That kind of courage comes from somewhere deeper — from the soul."
+    },
+    es: { title: "El Activista más Pequeño", teaser: "Un niño encadenado a un telar de alfombras se convirtió en la voz que cambió las leyes de trabajo infantil para siempre.",
+      paragraphs: ["Este es un cuento difícil. Pero es verdad, y es importante.","Iqbal Masih tenía cuatro años cuando su familia, demasiado pobre para pagar una pequeña deuda, lo envió a trabajar en una fábrica de alfombras en Pakistán. Trabajó en un telar durante seis años. Doce horas al día. Sus manos sangraban. Lo encadenaban al telar.","SPLIT_IMAGE_1_2","Cuando Iqbal tenía diez años, se enteró de que la Corte Suprema de Pakistán había declarado ilegal el trabajo infantil forzado. Era libre. Legalmente, siempre había sido libre. Nadie se lo había dicho.","La mayoría de las personas, después de soportar algo así, querrían desaparecer. Iqbal no quería olvidar.","Empezó a hablar. Primero a otros niños como él. Luego a organizaciones. Luego a audiencias en Suecia y Estados Unidos — un niño diminuto parado en un escenario, contándole al mundo lo que sucedía.","SPLIT_IMAGE_3_4","Les dijo: <em>No compren estas alfombras. Porque un niño como yo las hizo, y ese niño no es libre.</em>","Iqbal tenía doce años cuando fue asesinado. Había sido libre solo dos años. Y en esos dos años, cambió la conciencia del mundo sobre el trabajo infantil para siempre.","Hoy, el Departamento de Trabajo de Estados Unidos otorga un premio anual en su nombre — el Premio Iqbal Masih."],
+      secret: "El coraje no es la ausencia del miedo. Es la decisión de que algo importa más que tu miedo. Iqbal tenía miedo. Por supuesto que sí. Pero decidió que los niños aún atrapados en fábricas importaban más. Ese tipo de coraje viene de un lugar más profundo — del alma."
+    }
+  },
+  {
+    num: 9, folder: "09_printer_made_of_legos", color: "#0891B2",
+    en: { title: "The Printer Made of Legos", teaser: "A 12-year-old built a Braille printer from Legos — ten times cheaper than the real thing.",
+      paragraphs: ["Shubham Banerjee was twelve years old, working on a science fair project, when he stumbled onto a question: <em>Why is a Braille printer so expensive?</em>","A Braille printer cost more than two thousand dollars. For many blind people, that meant Braille books were out of reach.","SPLIT_IMAGE_1_2","Shubham thought: <em>That can't be right.</em>","He pulled out his Lego Mindstorms robotics kit. And he started building. It took seven attempts. The first six didn't work. Some printed too faintly. Some jammed. Some made dots the wrong size.","On the seventh try, it worked. A working Braille printer. Made from Legos. Cost: about two hundred dollars. Ten times cheaper.","SPLIT_IMAGE_3_4","At thirteen, Shubham became the youngest person in history to receive venture capital funding in Silicon Valley. Intel invested in his startup, Braigo Labs.","A twelve-year-old. Legos. A science fair."],
+      secret: "Don't be afraid to ask dumb questions. \"Why is a Braille printer so expensive?\" sounds dumb — until a twelve-year-old proves it wasn't dumb at all. The best ideas often come from looking at something everyone accepts and saying: \"Wait — does it HAVE to be this way?\""
+    },
+    es: { title: "La Impresora Hecha de Legos", teaser: "Un niño de 12 años construyó una impresora Braille con Legos — diez veces más barata que las reales.",
+      paragraphs: ["Shubham Banerjee tenía doce años, trabajando en un proyecto de feria de ciencias, cuando tropezó con una pregunta: <em>¿Por qué una impresora Braille es tan cara?</em>","Una impresora Braille costaba más de dos mil dólares. Para muchas personas ciegas, eso significaba que los libros en Braille estaban fuera de alcance.","SPLIT_IMAGE_1_2","Shubham pensó: <em>Eso no puede ser correcto.</em>","Sacó su kit de robótica Lego Mindstorms. Y empezó a construir. Tomó siete intentos. Los primeros seis no funcionaron.","En el séptimo intento, funcionó. Una impresora Braille funcional. Hecha de Legos. Costo: unos doscientos dólares. Diez veces más barata.","SPLIT_IMAGE_3_4","A los trece, Shubham se convirtió en la persona más joven en la historia en recibir capital de riesgo en Silicon Valley. Intel invirtió en su startup, Braigo Labs.","Un niño de doce años. Legos. Una feria de ciencias."],
+      secret: "No tengas miedo de hacer preguntas tontas. \"¿Por qué una impresora Braille es tan cara?\" suena tonto — hasta que un niño de doce años demuestra que no era tonto en absoluto. Las mejores ideas a menudo vienen de mirar algo que todos aceptan y decir: \"Espera — ¿TIENE que ser así?\""
+    }
+  },
+  {
+    num: 10, folder: "10_water_protector", color: "#4338CA",
+    en: { title: "The Water Protector", teaser: "An Indigenous girl confronted the Prime Minister — and became the voice of water protection.",
+      paragraphs: ["Autumn Peltier was eight years old when she learned that many Indigenous communities in Canada didn't have clean drinking water. Canada — one of the richest countries with more freshwater than almost any other.","Her great-aunt, Josephine Mandamin, had walked the shores of all five Great Lakes carrying a copper water pot — sacred in their culture — to remind people that water is life.","SPLIT_IMAGE_1_2","By twelve, Autumn found herself standing in front of Prime Minister Justin Trudeau. She presented him with a copper water pot and asked him why his government was still building pipelines that threatened her people's water.","She was twelve. He was the Prime Minister. And she didn't blink.","At thirteen, she stood before the United Nations General Assembly and told them: \"We can't eat money. We can't drink oil.\"","SPLIT_IMAGE_3_4","At nineteen, Autumn was named the Chief Water Commissioner for the entire Anishinabek Nation — forty First Nations communities in Ontario.","She carries her great-aunt's legacy with a microphone and a message that the whole world can hear."],
+      secret: "Being respectful doesn't mean being quiet. Autumn wasn't rude to the Prime Minister. She was honest. She asked a real question and expected a real answer. Sometimes the most powerful thing you can say is a calm, clear truth that nobody wants to hear."
+    },
+    es: { title: "La Protectora del Agua", teaser: "Una niña indígena confrontó al Primer Ministro — y se convirtió en la voz de la protección del agua.",
+      paragraphs: ["Autumn Peltier tenía ocho años cuando se enteró de que muchas comunidades indígenas en Canadá no tenían agua potable limpia. Canadá — uno de los países más ricos con más agua dulce que casi cualquier otro.","Su tía abuela, Josephine Mandamin, había caminado las orillas de los cinco Grandes Lagos llevando una olla de cobre sagrada para recordar a la gente que el agua es vida.","SPLIT_IMAGE_1_2","A los doce, Autumn se encontró frente al Primer Ministro Justin Trudeau. Le presentó una olla de cobre y le preguntó por qué su gobierno seguía construyendo oleoductos que amenazaban el agua de su pueblo.","Tenía doce años. Él era el Primer Ministro. Y ella no parpadeó.","A los trece, se paró ante la Asamblea General de las Naciones Unidas y les dijo: \"No podemos comer dinero. No podemos beber petróleo.\"","SPLIT_IMAGE_3_4","A los diecinueve, Autumn fue nombrada Comisionada Principal del Agua para toda la Nación Anishinabek — cuarenta comunidades de Primeras Naciones en Ontario.","Lleva el legado de su tía abuela con un micrófono y un mensaje que todo el mundo puede escuchar."],
+      secret: "Ser respetuoso no significa estar callado. Autumn no fue grosera con el Primer Ministro. Fue honesta. Hizo una pregunta real y esperaba una respuesta real. A veces lo más poderoso que puedes decir es una verdad tranquila y clara que nadie quiere escuchar."
+    }
+  },
+  {
+    num: 11, folder: "11_number_dreamer", color: "#B45309",
+    en: { title: "The Number Dreamer", teaser: "A poor boy in India who couldn't stop thinking about numbers — changed mathematics forever.",
+      paragraphs: ["In a small house in southern India, a boy named Srinivasa Ramanujan was doing something that drove his family crazy: math. Not homework math. The kind that fills notebooks with patterns nobody around him could understand.","By eleven, he knew more mathematics than college students. By thirteen, he had mastered an advanced textbook meant for older students — and gone beyond it.","SPLIT_IMAGE_1_2","His family was poor. When Ramanujan did get into college, he failed — because he was so obsessed with math that he ignored every other subject. He lost his scholarship. He went hungry.","But the numbers kept coming. Ramanujan said formulas would appear to him in dreams — floating in the dark like golden constellations. He filled notebook after notebook with discoveries the world had never seen.","He wrote a letter to mathematician G.H. Hardy at Cambridge University. Hardy almost threw it away. But something made him look closer. And he realized he was looking at the work of a genius.","SPLIT_IMAGE_3_4","Ramanujan traveled to England. He worked at Cambridge for five years. He made discoveries that scientists are STILL working to understand, more than a hundred years later.","He died young — just thirty-two — but his work changed mathematics forever. They named a prize after him. His notebooks are studied to this day by the smartest people in the world."],
+      secret: "If there's something you can't stop thinking about — something that fills your mind even when you try to think about other things — pay attention to it. That might be your gift. It doesn't have to make sense to anyone else. It only has to make sense to you."
+    },
+    es: { title: "El Soñador de Números", teaser: "Un niño pobre en India que no podía dejar de pensar en números — cambió las matemáticas para siempre.",
+      paragraphs: ["En una pequeña casa en el sur de India, un niño llamado Srinivasa Ramanujan hacía algo que volvía loca a su familia: matemáticas. No matemáticas de tarea. Del tipo que llena cuadernos con patrones que nadie a su alrededor podía entender.","A los once, sabía más matemáticas que los estudiantes universitarios. A los trece, había dominado un libro avanzado — y lo había superado.","SPLIT_IMAGE_1_2","Su familia era pobre. Cuando Ramanujan logró entrar a la universidad, reprobó — porque estaba tan obsesionado con las matemáticas que ignoró todas las demás materias. Perdió su beca. Pasó hambre.","Pero los números seguían viniendo. Ramanujan decía que las fórmulas le aparecían en sueños — flotando en la oscuridad como constelaciones doradas. Llenó cuaderno tras cuaderno con descubrimientos que el mundo nunca había visto.","Escribió una carta al matemático G.H. Hardy en la Universidad de Cambridge. Hardy casi la tiró a la basura. Pero algo lo hizo mirar más de cerca. Y se dio cuenta de que estaba viendo el trabajo de un genio.","SPLIT_IMAGE_3_4","Ramanujan viajó a Inglaterra. Trabajó en Cambridge durante cinco años. Hizo descubrimientos que los científicos TODAVÍA están tratando de entender, más de cien años después.","Murió joven — solo treinta y dos años — pero su trabajo cambió las matemáticas para siempre. Nombraron un premio en su honor. Sus cuadernos son estudiados hasta hoy por las personas más inteligentes del mundo."],
+      secret: "Si hay algo en lo que no puedes dejar de pensar — algo que llena tu mente incluso cuando intentas pensar en otras cosas — préstale atención. Ese podría ser tu don. No tiene que tener sentido para nadie más. Solo tiene que tener sentido para ti."
+    }
+  },
+  {
+    num: 12, folder: "12_accidental_inventions", color: "#059669",
+    en: { title: "The Accidental Inventions", teaser: "Play-Doh, Post-its, penicillin, potato chips, microwaves — all born from happy accidents.",
+      paragraphs: ["This isn't one story — it's a bunch of little ones. Because some of the greatest things in the world were created completely by accident.","<strong>Play-Doh</strong> was invented to clean wallpaper. Then a teacher noticed that kids loved squishing it, and someone thought: <em>wait a minute...</em>","SPLIT_IMAGE_1_2","<strong>Post-it Notes</strong> happened because a scientist at 3M accidentally made a glue that was too weak. Most people would have called that a failure. But another scientist realized: a glue that sticks lightly and peels off easily? That's PERFECT for notes.","<strong>Penicillin</strong> — the medicine that has saved hundreds of millions of lives — was discovered because Alexander Fleming left a petri dish uncovered. The mold was killing the bacteria around it. That accident became the world's first antibiotic.","<strong>Potato chips</strong> were invented because a customer kept complaining his fried potatoes were too thick. The chef sliced them paper-thin out of spite. The customer loved them.","SPLIT_IMAGE_3_4","<strong>The microwave oven</strong> was discovered when an engineer walked past a radar machine and the chocolate bar in his pocket melted. Instead of being annoyed, he asked: <em>can this technology cook food?</em>","Every single one of these inventions happened because someone was paying attention to the unexpected."],
+      secret: "Ideas aren't always loud. Sometimes they whisper. Sometimes they show up disguised as accidents, mistakes, or things that went \"wrong.\" The people who change the world aren't always the smartest — they're the ones who notice things that everyone else walks right past."
+    },
+    es: { title: "Los Inventos Accidentales", teaser: "Play-Doh, Post-its, penicilina, papas fritas, microondas — todos nacidos de accidentes felices.",
+      paragraphs: ["Este no es un cuento — son varios pequeños. Porque algunas de las cosas más grandes del mundo fueron creadas completamente por accidente.","<strong>Play-Doh</strong> fue inventado para limpiar papel tapiz. Luego una maestra notó que a los niños les encantaba aplastarlo, y alguien pensó: <em>un momento...</em>","SPLIT_IMAGE_1_2","<strong>Las notas Post-it</strong> sucedieron porque un científico de 3M accidentalmente hizo un pegamento demasiado débil. La mayoría lo habría llamado un fracaso. Pero otro científico se dio cuenta: ¿un pegamento que pega suavemente y se despega fácil? ¡PERFECTO para notas!","<strong>La penicilina</strong> — la medicina que ha salvado cientos de millones de vidas — fue descubierta porque Alexander Fleming dejó una placa de Petri descubierta. El moho estaba matando las bacterias. Ese accidente se convirtió en el primer antibiótico del mundo.","<strong>Las papas fritas</strong> fueron inventadas porque un cliente seguía quejándose de que sus papas eran muy gruesas. El chef las cortó delgadísimas por despecho. ¡Al cliente le encantaron!","SPLIT_IMAGE_3_4","<strong>El horno microondas</strong> fue descubierto cuando un ingeniero pasó junto a un radar y la barra de chocolate en su bolsillo se derritió. En vez de enojarse, preguntó: <em>¿puede esta tecnología cocinar comida?</em>","Cada uno de estos inventos sucedió porque alguien prestó atención a lo inesperado."],
+      secret: "Las ideas no siempre son ruidosas. A veces susurran. A veces se disfrazan de accidentes, errores o cosas que salieron \"mal\". Las personas que cambian el mundo no siempre son las más inteligentes — son las que notan cosas que todos los demás pasan de largo."
+    }
+  },
+  {
+    num: 13, folder: "13_si_dios_quiere", color: "#7C3AED",
+    en: { title: "Si Dios Quiere", teaser: "A grandmother's three words — and the greatest secret of all.",
+      paragraphs: ["I want to tell you about my grandmother. She was a Dominican woman — strong, loving, warm, and absolutely sure that God was listening.","She wasn't rich. She didn't have a degree. She never traveled the world or won any awards. But she had something that most people spend their whole lives searching for. She had peace.","SPLIT_IMAGE_1_2","Every night, before she went to bed, she talked to God. Not in a formal way. She talked to Him like He was sitting in the chair next to her.","And then she said three words — the same three words she said before every meal, every trip, every important moment: <em>Si Dios quiere.</em> God willing.","Here's what she understood: <strong>you can only carry so much.</strong> You can study for the test, but you can't control the questions. You can be a good friend, but you can't control how people treat you. You can work hard, dream big, give everything you've got — and some things will still be out of your hands.","SPLIT_IMAGE_3_4","<em>Si Dios quiere</em> doesn't mean giving up. It means: <em>I'll do MY part. The part I can control. And then I'll hand the rest to someone whose shoulders are bigger than mine.</em>","That's not weakness. That's the strongest, wisest, most peaceful thing a person can do."],
+      secret: "You don't have to carry it all. Do your best. Then trust. That's not giving up — that's growing up."
+    },
+    es: { title: "Si Dios Quiere", teaser: "Las tres palabras de una abuela — y el mayor secreto de todos.",
+      paragraphs: ["Quiero contarte sobre mi abuela. Era una mujer dominicana — fuerte, amorosa, cálida, y absolutamente segura de que Dios estaba escuchando.","No era rica. No tenía un título. Nunca viajó por el mundo ni ganó premios. Pero tenía algo que la mayoría de las personas pasan toda su vida buscando. Tenía paz.","SPLIT_IMAGE_1_2","Cada noche, antes de acostarse, hablaba con Dios. No de manera formal. Le hablaba como si estuviera sentado en la silla de al lado.","Y luego decía tres palabras — las mismas tres palabras que decía antes de cada comida, cada viaje, cada momento importante: <em>Si Dios quiere.</em>","Esto es lo que ella entendía: <strong>solo puedes cargar hasta cierto punto.</strong> Puedes estudiar para el examen, pero no puedes controlar las preguntas. Puedes ser un buen amigo, pero no puedes controlar cómo te tratan. Puedes trabajar duro, soñar en grande — y algunas cosas seguirán fuera de tus manos.","SPLIT_IMAGE_3_4","<em>Si Dios quiere</em> no significa rendirse. Significa: <em>Yo haré MI parte. La parte que puedo controlar. Y luego le entregaré el resto a alguien cuyos hombros son más grandes que los míos.</em>","Eso no es debilidad. Es lo más fuerte, sabio y pacífico que una persona puede hacer."],
+      secret: "No tienes que cargar con todo. Haz tu mejor esfuerzo. Luego confía. Eso no es rendirse — es crecer."
+    }
+  }
+];
+
+// ===== STATE =====
+let lang = 'en';
+let currentStory = 0;
+
+// ===== READ-TO-UNLOCK SYSTEM =====
+// Kids must read (scroll to bottom of) a story before they can play its game
+const storiesRead = new Set(JSON.parse(localStorage.getItem('storiesRead') || '[]'));
+
+function markStoryRead(index) {
+  storiesRead.add(index);
+  localStorage.setItem('storiesRead', JSON.stringify([...storiesRead]));
+  // Update the play button for this story if cards exist
+  const cards = document.querySelectorAll('.story-card');
+  if (cards[index]) {
+    const btn = cards[index].querySelector('.play-game-btn');
+    if (btn) {
+      btn.classList.remove('locked');
+      btn.disabled = false;
+      const playLabel = lang === 'en' ? 'Play' : 'Jugar';
+      btn.innerHTML = `&#127918; ${playLabel}`;
+      btn.onclick = (e) => { e.stopPropagation(); openGame(index); };
+    }
+  }
+}
+
+function isStoryRead(index) {
+  return storiesRead.has(index);
+}
+
+// ===== LANGUAGE TOGGLE =====
+function toggleLang() {
+  lang = lang === 'en' ? 'es' : 'en';
+  document.getElementById('langBtn').textContent = lang === 'en' ? 'ES' : 'EN';
+  document.documentElement.lang = lang;
+  // Update all translatable elements
+  document.querySelectorAll('[data-en]').forEach(el => {
+    el.innerHTML = el.getAttribute('data-' + lang);
+  });
+  // Rebuild story cards
+  buildStoryCards();
+  // If reader is open, re-render
+  if (document.getElementById('readerOverlay').classList.contains('active')) {
+    openStory(currentStory);
+  }
+}
+
+// ===== BUILD STORY CARDS =====
+function buildStoryCards() {
+  const grid = document.getElementById('storiesGrid');
+  grid.innerHTML = '';
+  STORIES.forEach((s, i) => {
+    const d = s[lang];
+    const card = document.createElement('div');
+    card.className = 'story-card fade-up';
+    card.onclick = () => openStory(i);
+    const unlocked = isStoryRead(i);
+    const playLabel = lang === 'en' ? 'Play' : 'Jugar';
+    const lockLabel = lang === 'en' ? 'Read to Unlock' : 'Lee para Desbloquear';
+    card.innerHTML = `
+      <img src="images/${s.folder}/img_01.jpg" alt="${d.title}" loading="lazy">
+      <div class="card-body">
+        <div class="story-num">${lang === 'en' ? 'Story' : 'Cuento'} ${s.num}</div>
+        <h3>${d.title}</h3>
+        <div class="card-teaser">${d.teaser}</div>
+        <button class="play-game-btn ${unlocked ? '' : 'locked'}" ${unlocked ? '' : 'disabled'}
+          onclick="event.stopPropagation(); openGame(${i});">
+          ${unlocked ? '&#127918; ' + playLabel : '&#128274; ' + lockLabel}
+        </button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+  observeFadeUps();
+}
+
+// ===== STORY READER =====
+function openStory(index) {
+  currentStory = index;
+  const s = STORIES[index];
+  const d = s[lang];
+  const overlay = document.getElementById('readerOverlay');
+  const content = document.getElementById('readerContent');
+
+  // Build HTML
+  let html = `<img src="images/${s.folder}/img_01.jpg" alt="${d.title}" class="reader-hero-img">`;
+  html += `<h1 style="color:${s.color}">${d.title}</h1>`;
+
+  d.paragraphs.forEach(p => {
+    if (p === 'SPLIT_IMAGE_1_2') {
+      html += `<div class="story-image-pair">
+        <img src="images/${s.folder}/img_01.jpg" alt="" loading="lazy">
+        <img src="images/${s.folder}/img_02.jpg" alt="" loading="lazy">
+      </div>`;
+    } else if (p === 'SPLIT_IMAGE_3_4') {
+      html += `<div class="story-image-pair">
+        <img src="images/${s.folder}/img_03.jpg" alt="" loading="lazy">
+        <img src="images/${s.folder}/img_04.jpg" alt="" loading="lazy">
+      </div>`;
+    } else {
+      html += `<p>${p}</p>`;
+    }
+  });
+
+  html += `<div class="secret-box"><strong>${lang === 'en' ? 'The secret inside this story:' : 'El secreto dentro de este cuento:'}</strong> ${d.secret}</div>`;
+
+  // Play game button at end of story (unlocked after reading)
+  const readLabel = lang === 'en' ? 'Play the Game!' : 'Juega el Juego!';
+  const scrollLabel = lang === 'en' ? 'Scroll down to unlock the game' : 'Desplazate para desbloquear el juego';
+  html += `<div style="text-align:center;margin:32px 0;">
+    <button id="readerPlayBtn" class="play-game-btn ${isStoryRead(index) ? '' : 'locked'}" ${isStoryRead(index) ? '' : 'disabled'}
+      onclick="closeReader(); openGame(${index});"
+      style="font-size:1.1rem;padding:12px 28px;">
+      ${isStoryRead(index) ? '&#127918; ' + readLabel : '&#128274; ' + scrollLabel}
+    </button>
+  </div>`;
+
+  content.innerHTML = html;
+
+  // Update nav buttons
+  document.getElementById('prevBtn').disabled = index === 0;
+  document.getElementById('nextBtn').disabled = index === STORIES.length - 1;
+
+  overlay.classList.add('active');
+  overlay.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+function closeReader() {
+  document.getElementById('readerOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Detect when reader is scrolled to bottom -> mark story as read
+document.getElementById('readerOverlay').addEventListener('scroll', function() {
+  const el = this;
+  // Check if scrolled to within 100px of bottom
+  if (el.scrollTop + el.clientHeight >= el.scrollHeight - 100) {
+    if (!isStoryRead(currentStory)) {
+      markStoryRead(currentStory);
+      // Unlock the reader play button
+      const readerBtn = document.getElementById('readerPlayBtn');
+      if (readerBtn) {
+        readerBtn.classList.remove('locked');
+        readerBtn.disabled = false;
+        const label = lang === 'en' ? 'Play the Game!' : 'Juega el Juego!';
+        readerBtn.innerHTML = `&#127918; ${label}`;
+        // Flash to draw attention
+        readerBtn.style.animation = 'none';
+        readerBtn.offsetHeight; // reflow
+        readerBtn.style.background = '#E8553A';
+        setTimeout(() => { readerBtn.style.background = ''; }, 1500);
+      }
+    }
+  }
+});
+
+function prevStory() { if (currentStory > 0) openStory(currentStory - 1); }
+function nextStory() { if (currentStory < STORIES.length - 1) openStory(currentStory + 1); }
+
+// Keyboard nav
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('readerOverlay').classList.contains('active')) return;
+  if (e.key === 'Escape') closeReader();
+  if (e.key === 'ArrowLeft') prevStory();
+  if (e.key === 'ArrowRight') nextStory();
+});
+
+// ===== SCROLL ANIMATIONS =====
+function observeFadeUps() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.fade-up:not(.visible)').forEach(el => obs.observe(el));
+}
+
+// ===== SCROLL PROGRESS BAR =====
+window.addEventListener('scroll', () => {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = (window.scrollY / max) * 100;
+  document.getElementById('scrollProgress').style.width = pct + '%';
+});
+
+// ===== NAVBAR HIDE/SHOW =====
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  if (window.scrollY > lastScroll && window.scrollY > 100) {
+    nav.classList.add('hidden');
+  } else {
+    nav.classList.remove('hidden');
+  }
+  lastScroll = window.scrollY;
+});
+
+function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+// ===== INIT =====
+buildStoryCards();
+observeFadeUps();
+</script>
+</body>
+</html>
