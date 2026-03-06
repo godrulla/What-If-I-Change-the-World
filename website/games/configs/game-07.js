@@ -105,6 +105,7 @@
       });
 
       engine.ui=new GameUI(engine);
+      engine.ui.setObjectives([{x:engine.well.x,y:engine.well.y,label:'W',text:lang==='en'?'Plant trees! Refill seeds at the well':'Planta arboles! Recarga semillas en el pozo'}]);
     },
     onUpdate(engine,dt){
       const st=engine.gameState;
@@ -163,7 +164,7 @@
       const st=engine.gameState;
       if(st.phase==='title'){engine.ui.renderTitle(st.lang==='en'?'TREES THAT CHANGED EVERYTHING':'LOS ARBOLES QUE CAMBIARON TODO',st.lang==='en'?'Plant trees before time runs out!':'Planta arboles antes de que se acabe el tiempo!');return;}
       if(engine.ui.renderEndScreen()) return;
-      engine.ui.renderHUD();engine.ui.renderDialog(engine.deltaTime);engine.ui.renderNotification(engine.deltaTime);
+      engine.ui.renderHUD();engine.ui.renderHints(engine.camera);engine.ui.renderDialog(engine.deltaTime);engine.ui.renderNotification(engine.deltaTime);
     }
   };
 })();

@@ -76,7 +76,7 @@
         ctx.fillText('HOME',x+8,y+10);ctx.globalAlpha=1;
       };
       engine._dustEmitter=engine.particles.addEmitter({type:'dust',rate:0.12,follow:engine.player});engine._dustEmitter.active=false;
-      engine.particles.addEmitter({type:'leaf',rate:0.8,canvasW:640,canvasH:480});
+      engine.particles.addEmitter({type:'leaf',rate:0.8,canvasW:engine.width,canvasH:engine.height});
       engine.patrols=[];
       [[20,25,0,1,6],[40,15,1,0,5]].forEach(([x,y,dx,dy,range])=>{
         const p=engine.addEntity(new Sprite({x:x*16,y:y*16,w:14,h:14,color:'#dc2626',type:'patrol'}));
@@ -85,6 +85,7 @@
         engine.patrols.push(p);
       });
       engine.ui=new GameUI(engine);
+      engine.ui.setObjectives([{x:engine.arrival.x,y:engine.arrival.y,label:'H',text:lang==='en'?'Walk to grandmother\'s house':'Camina a la casa de abuela'}]);
     },
     onUpdate(engine,dt){
       const st=engine.gameState;
@@ -131,7 +132,7 @@
       const st=engine.gameState;
       if(st.phase==='title'){engine.ui.renderTitle('SI DIOS QUIERE',st.lang==='en'?'A peaceful walk to grandmother\'s house':'Un camino tranquilo a la casa de abuela');return;}
       if(engine.ui.renderEndScreen()) return;
-      engine.ui.renderHUD();engine.ui.renderDialog(engine.deltaTime);engine.ui.renderNotification(engine.deltaTime);
+      engine.ui.renderHUD();engine.ui.renderHints(engine.camera);engine.ui.renderDialog(engine.deltaTime);engine.ui.renderNotification(engine.deltaTime);
     }
   };
 })();

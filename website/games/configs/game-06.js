@@ -60,7 +60,7 @@
         }
       }
       engine._dustEmitter = engine.particles.addEmitter({ type: 'dust', rate: 0.12, follow: engine.player }); engine._dustEmitter.active = false;
-      engine.particles.addEmitter({ type: 'bubble', rate: 0.5, x: 320, y: 300, canvasW: 640, canvasH: 480 });
+      engine.particles.addEmitter({ type: 'bubble', rate: 0.5, x: 320, y: 300, canvasW: engine.width, canvasH: engine.height });
 
       // Patrol enemies
       engine.patrols = [];
@@ -83,6 +83,7 @@
       });
 
       engine.ui=new GameUI(engine);
+      engine.ui.setObjectives([{x:25*16,y:18*16,label:'?',text:lang==='en'?'Test water sources to find contamination':'Prueba fuentes de agua'}]);
     },
     onUpdate(engine,dt){
       const st=engine.gameState;
@@ -148,7 +149,7 @@
       const st=engine.gameState;
       if(st.phase==='title'){engine.ui.renderTitle(st.lang==='en'?'THE GIRL AND THE POISONED WATER':'LA NINA Y EL AGUA ENVENENADA',st.lang==='en'?'Test water sources to find contamination':'Prueba fuentes de agua para encontrar contaminacion');return;}
       if(engine.ui.renderEndScreen()) return;
-      engine.ui.renderHUD();engine.ui.renderDialog(engine.deltaTime);engine.ui.renderNotification(engine.deltaTime);
+      engine.ui.renderHUD();engine.ui.renderHints(engine.camera);engine.ui.renderDialog(engine.deltaTime);engine.ui.renderNotification(engine.deltaTime);
     }
   };
 })();

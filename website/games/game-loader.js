@@ -18,8 +18,16 @@ class GameLoader {
       }
     });
 
-    // Touch D-pad setup
+    // Touch D-pad setup (desktop fallback + mobile overlay)
     this._setupTouchControls();
+    this._setupMobileOverlayControls();
+
+    // Mobile close button
+    const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+    if (mobileCloseBtn) {
+      mobileCloseBtn.addEventListener('click', () => this.closeGame());
+      mobileCloseBtn.addEventListener('touchstart', (e) => { e.preventDefault(); this.closeGame(); }, { passive: false });
+    }
 
     // ESC to close + M to toggle sound
     this._onKey = (e) => {
@@ -70,9 +78,24 @@ class GameLoader {
 
     const config = window.GAME_CONFIGS[configId];
 
-    // Show overlay
+    // Show overlay + lock viewport on mobile
     this.overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    document.documentElement.style.height = '100%';
+    document.body.style.height = '100%';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.top = '0';
+
+    // Request fullscreen on mobile (user gesture context)
+    if (window.innerWidth <= 768) {
+      const el = document.documentElement;
+      const rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+      if (rfs) {
+        try { rfs.call(el); } catch(e) { /* ignore if blocked */ }
+      }
+    }
 
     // Update sound button label
     this._updateSoundBtn();
@@ -98,6 +121,18 @@ class GameLoader {
     }
     this.overlay.classList.remove('active');
     document.body.style.overflow = '';
+    document.body.style.height = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.top = '';
+    document.documentElement.style.overflow = '';
+    document.documentElement.style.height = '';
+
+    // Exit fullscreen if we entered it
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      const eFS = document.exitFullscreen || document.webkitExitFullscreen;
+      if (eFS) { try { eFS.call(document); } catch(e) {} }
+    }
   }
 
   _getComingSoonMsg(idx) {
@@ -121,9 +156,53 @@ class GameLoader {
   _updateSoundBtn() {
     const btn = document.getElementById('gameSoundBtn');
     const mobileBtn = document.getElementById('dpadMute');
+    const mobileMute = document.getElementById('mdpadMute');
     const on = window.retroAudio && window.retroAudio.enabled;
     if (btn) btn.textContent = on ? 'SND ON' : 'SND OFF';
     if (mobileBtn) mobileBtn.textContent = on ? 'SND' : 'MUTE';
+    if (mobileMute) mobileMute.textContent = on ? 'SND' : 'MUTE';
+  }
+
+  _setupMobileOverlayControls() {
+    const buttons = {
+      'mdpadUp': { x: 0, y: -1 },
+      'mdpadDown': { x: 0, y: 1 },
+      'mdpadLeft': { x: -1, y: 0 },
+      'mdpadRight': { x: 1, y: 0 },
+      'mdpadAction': { x: 0, y: 0, action: true }
+    };
+
+    Object.entries(buttons).forEach(([id, dir]) => {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+
+      const startTouch = (e) => {
+        e.preventDefault();
+        btn.classList.add('pressed');
+        if (this.currentEngine) {
+          if (dir.action) {
+            this.currentEngine.keys['Space'] = true;
+          } else {
+            this.currentEngine.setTouchDir(dir.x, dir.y);
+          }
+        }
+      };
+      const endTouch = (e) => {
+        e.preventDefault();
+        btn.classList.remove('pressed');
+        if (this.currentEngine) {
+          if (dir.action) {
+            this.currentEngine.keys['Space'] = false;
+          } else {
+            this.currentEngine.setTouchDir(0, 0);
+          }
+        }
+      };
+
+      btn.addEventListener('touchstart', startTouch, { passive: false });
+      btn.addEventListener('touchend', endTouch, { passive: false });
+      btn.addEventListener('touchcancel', endTouch, { passive: false });
+    });
   }
 
   _setupTouchControls() {
@@ -178,8 +257,10 @@ function toggleGameSound() {
     const on = window.retroAudio.toggle();
     const btn = document.getElementById('gameSoundBtn');
     const mobileBtn = document.getElementById('dpadMute');
+    const mobileMute = document.getElementById('mdpadMute');
     if (btn) btn.textContent = on ? 'SND ON' : 'SND OFF';
     if (mobileBtn) mobileBtn.textContent = on ? 'SND' : 'MUTE';
+    if (mobileMute) mobileMute.textContent = on ? 'SND' : 'MUTE';
   }
 }
 

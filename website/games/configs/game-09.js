@@ -78,6 +78,17 @@
         engine.patrols.push(p);
       });
       engine.ui=new GameUI(engine);
+
+      // Hint system: sequential LEGO brick objectives + blueprint desk
+      const hintText=lang==='en'?'Find LEGO brick':'Busca pieza LEGO';
+      const finalText=lang==='en'?'Go to the blueprint desk!':'Ve al escritorio!';
+      const objectives=[];
+      engine.brickSprites.forEach(b => {
+        objectives.push({x:b.x,y:b.y,label:String(b.brickId),text:`${hintText} #${b.brickId}`});
+      });
+      objectives.sort((a,b)=>parseInt(a.label)-parseInt(b.label));
+      objectives.push({x:engine.blueprint.x,y:engine.blueprint.y,label:'P',text:finalText});
+      engine.ui.setObjectives(objectives);
     },
     onUpdate(engine,dt){
       const st=engine.gameState;
@@ -112,6 +123,7 @@
           engine.audio.collect();engine.shake(3,0.15);
           engine.particles.sparkle(brick.x-engine.camera.x+8,brick.y-engine.camera.y+8,BRICK_COLORS[brick.brickId],20);
           engine.ui.showNotification(st.lang==='en'?`Brick ${st.bricks}/${st.total}!`:`Pieza ${st.bricks}/${st.total}!`,1.5);
+          engine.ui.advanceObjective();
           if(st.bricks===st.total) engine.ui.showDialog(st.lang==='en'?'All bricks! Go to the blueprint desk!':'Todas las piezas! Ve al escritorio!',3);
         }
       });
@@ -130,7 +142,7 @@
       const st=engine.gameState;
       if(st.phase==='title'){engine.ui.renderTitle(st.lang==='en'?'PRINTER MADE OF LEGOS':'IMPRESORA DE LEGOS',st.lang==='en'?'Collect bricks to build the printer':'Recoge piezas para construir la impresora');return;}
       if(engine.ui.renderEndScreen()) return;
-      engine.ui.renderHUD();engine.ui.renderDialog(engine.deltaTime);engine.ui.renderNotification(engine.deltaTime);
+      engine.ui.renderHUD();engine.ui.renderHints(engine.camera);engine.ui.renderDialog(engine.deltaTime);engine.ui.renderNotification(engine.deltaTime);
     }
   };
 })();

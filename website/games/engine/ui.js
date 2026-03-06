@@ -273,8 +273,7 @@ class GameUI {
         if (blink) {
           ctx.font = 'bold 14px monospace';
           ctx.fillStyle = '#FFD700';
-          const isMobile = 'ontouchstart' in window;
-          ctx.fillText(isMobile ? 'TAP TO RETRY' : 'PRESS R TO RETRY', w / 2, h / 2 + 65);
+          ctx.fillText(this.engine.isMobile ? 'TAP TO RETRY' : 'PRESS R TO RETRY', w / 2, h / 2 + 65);
         }
       }
     }
@@ -287,6 +286,15 @@ class GameUI {
     const ctx = this.ctx;
     const w = this.engine.width;
     const h = this.engine.height;
+    const mobile = this.engine.isMobile;
+    // Scale text sizes relative to canvas height (480 = baseline)
+    const s = Math.min(h / 480, w / 480);
+    const titleSize = Math.round(28 * s);
+    const subSize = Math.round(14 * s);
+    const promptSize = Math.round(15 * s);
+    const hintSize = Math.round(11 * s);
+    const titleLineH = Math.round(34 * s);
+    const subLineH = Math.round(20 * s);
 
     ctx.fillStyle = '#0a0a1e';
     ctx.fillRect(0, 0, w, h);
@@ -310,11 +318,10 @@ class GameUI {
     ctx.save();
     ctx.shadowColor = '#E8553A';
     ctx.shadowBlur = 15 + Math.sin(Date.now() / 600) * 5;
-    ctx.font = 'bold 28px monospace';
+    ctx.font = `bold ${titleSize}px monospace`;
     ctx.fillStyle = '#E8553A';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    // Word wrap for long titles
     const words = title.split(' ');
     let lines = [''];
     words.forEach(word => {
@@ -323,14 +330,14 @@ class GameUI {
       else lines[lines.length-1] = test;
     });
     lines.forEach((line, i) => {
-      const ly = h / 2 - 50 + (i - (lines.length-1)/2) * 34;
+      const ly = h / 2 - 50 * s + (i - (lines.length-1)/2) * titleLineH;
       ctx.fillText(line, w / 2, ly);
     });
     ctx.shadowBlur = 0;
     ctx.restore();
 
     // Subtitle with word wrap
-    ctx.font = 'bold 14px monospace';
+    ctx.font = `bold ${subSize}px monospace`;
     ctx.fillStyle = '#F4A623';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -342,28 +349,127 @@ class GameUI {
       else subLines[subLines.length-1] = test;
     });
     subLines.forEach((line, i) => {
-      ctx.fillText(line, w / 2, h / 2 + 15 + i * 20);
+      ctx.fillText(line, w / 2, h / 2 + 15 * s + i * subLineH);
     });
 
     // Blinking prompt
-    const promptY = h / 2 + 15 + subLines.length * 20 + 25;
+    const promptY = h / 2 + 15 * s + subLines.length * subLineH + 30 * s;
     const blink = Math.sin(Date.now() / 400) > 0;
     if (blink) {
-      ctx.font = 'bold 13px monospace';
+      ctx.font = `bold ${promptSize}px monospace`;
       ctx.fillStyle = '#888';
-      const isMobile = 'ontouchstart' in window;
-      const defaultPrompt = isMobile ? 'TAP TO START' : 'PRESS SPACE TO START';
+      const defaultPrompt = mobile ? 'TOUCH TO START' : 'PRESS SPACE TO START';
       ctx.fillText(prompt || defaultPrompt, w / 2, promptY);
     }
 
     // Controls hint
-    const hintY = promptY + 25;
-    ctx.font = '11px monospace';
+    const hintY = promptY + 28 * s;
+    ctx.font = `${hintSize}px monospace`;
     ctx.fillStyle = '#555';
     ctx.textAlign = 'center';
-    const isMobile2 = 'ontouchstart' in window;
-    ctx.fillText(isMobile2 ? 'Use D-pad to move' : 'Arrow keys to move, SPACE to interact', w / 2, hintY);
-    ctx.fillText('M = toggle sound', w / 2, hintY + 15);
+    ctx.fillText(mobile ? 'Use on-screen controls to move' : 'Arrow keys to move, SPACE to interact', w / 2, hintY);
+    if (!mobile) ctx.fillText('M = toggle sound', w / 2, hintY + 15 * s);
+  }
+
+  // === HINTS SYSTEM ===
+  setObjectives(list) {
+    // list: [{ x, y, label, text }] — world-space positions
+    this._objectives = list;
+    this._currentObjective = 0;
+    this._objectiveText = list.length > 0 ? list[0].text : '';
+  }
+
+  advanceObjective() {
+    this._currentObjective = (this._currentObjective || 0) + 1;
+    if (this._objectives && this._currentObjective < this._objectives.length) {
+      this._objectiveText = this._objectives[this._currentObjective].text;
+    } else {
+      this._objectiveText = '';
+    }
+  }
+
+  renderHints(camera) {
+    if (!this._objectives || this._objectives.length === 0) return;
+    const ctx = this.ctx;
+    const w = this.engine.width;
+    const h = this.engine.height;
+    const current = this._currentObjective || 0;
+
+    // Draw numbered badges on all remaining objectives
+    for (let i = current; i < this._objectives.length; i++) {
+      const obj = this._objectives[i];
+      const screenX = obj.x - camera.x + 8;
+      const screenY = obj.y - camera.y - 6;
+      const isCurrent = (i === current);
+
+      // Only draw badge if on screen
+      if (screenX > -20 && screenX < w + 20 && screenY > -20 && screenY < h + 20) {
+        const pulse = isCurrent ? Math.sin(Date.now() / 300) * 2 : 0;
+        const radius = 8;
+        // Gold circle
+        ctx.beginPath();
+        ctx.arc(screenX, screenY + pulse, radius, 0, Math.PI * 2);
+        ctx.fillStyle = isCurrent ? '#FFD700' : 'rgba(255,215,0,0.5)';
+        ctx.fill();
+        ctx.strokeStyle = isCurrent ? '#fff' : 'rgba(255,255,255,0.3)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        // Number
+        ctx.font = 'bold 10px monospace';
+        ctx.fillStyle = '#000';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(String(i + 1), screenX, screenY + pulse);
+      }
+    }
+
+    // Directional arrow when current objective is off-screen
+    if (current < this._objectives.length) {
+      const obj = this._objectives[current];
+      const targetX = obj.x - camera.x + 8;
+      const targetY = obj.y - camera.y + 8;
+      const margin = 30;
+
+      if (targetX < -10 || targetX > w + 10 || targetY < -10 || targetY > h + 10) {
+        // Clamp to screen edge
+        const cx = w / 2;
+        const cy = h / 2;
+        const angle = Math.atan2(targetY - cy, targetX - cx);
+        const edgeX = Math.max(margin, Math.min(w - margin, cx + Math.cos(angle) * (w / 2 - margin)));
+        const edgeY = Math.max(margin + 32, Math.min(h - margin, cy + Math.sin(angle) * (h / 2 - margin)));
+
+        const pulse = Math.sin(Date.now() / 200) * 0.3 + 0.7;
+        ctx.save();
+        ctx.translate(edgeX, edgeY);
+        ctx.rotate(angle);
+        ctx.globalAlpha = pulse;
+        // Arrow shape
+        ctx.fillStyle = '#FFD700';
+        ctx.beginPath();
+        ctx.moveTo(10, 0);
+        ctx.lineTo(-4, -6);
+        ctx.lineTo(-4, 6);
+        ctx.closePath();
+        ctx.fill();
+        // Arrow outline
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+        ctx.restore();
+      }
+    }
+
+    // Objective text bar at top (below HUD)
+    if (this._objectiveText) {
+      ctx.fillStyle = 'rgba(0,0,0,0.55)';
+      ctx.fillRect(0, 32, w, 22);
+      ctx.font = 'bold 11px monospace';
+      ctx.fillStyle = '#FFD700';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(this._objectiveText, w / 2, 43);
+    }
   }
 
   _wrapText(text, x, y, maxWidth, lineHeight) {

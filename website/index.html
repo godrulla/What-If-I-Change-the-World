@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>The Craziest Idea in the World — Stories for Young Dreamers</title>
 <meta name="description" content="A children's book of true stories about young dreamers who changed the world. By Armando Diaz Silverio.">
 <!-- Favicon: crazy face emoji -->
@@ -419,25 +419,25 @@ h1, h2, h3, h4 { font-family: 'Fredoka', sans-serif; }
   border-radius: 8px;
 }
 .game-close-btn {
-  position: absolute; top: -40px; right: 0; z-index: 2;
-  background: #E8553A; color: white; border: none;
-  border-radius: 8px; padding: 8px 20px;
-  font-family: 'Fredoka', sans-serif; font-size: 0.95rem;
-  font-weight: 600; cursor: pointer;
+  position: absolute; top: 8px; right: 8px; z-index: 2;
+  background: rgba(0,0,0,0.5); color: white; border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 50%; width: 36px; height: 36px;
+  font-size: 1.1rem; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
   transition: background 0.2s, transform 0.2s;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  padding: 0; line-height: 1;
 }
-.game-close-btn:hover { background: #d14530; transform: scale(1.05); }
+.game-close-btn:hover { background: rgba(232,85,58,0.7); transform: scale(1.1); }
 /* Sound toggle button */
 .game-sound-btn {
-  position: absolute; top: -40px; left: 0; z-index: 2;
-  background: #333; color: white; border: none;
-  border-radius: 8px; padding: 8px 16px;
-  font-family: 'Fredoka', sans-serif; font-size: 0.85rem;
+  position: absolute; top: 8px; left: 8px; z-index: 2;
+  background: rgba(0,0,0,0.5); color: white; border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 20px; padding: 4px 12px;
+  font-family: 'Fredoka', sans-serif; font-size: 0.75rem;
   font-weight: 600; cursor: pointer;
   transition: background 0.2s;
 }
-.game-sound-btn:hover { background: #555; }
+.game-sound-btn:hover { background: rgba(255,255,255,0.2); }
 /* Touch D-Pad — always visible on mobile */
 .game-touch-dpad {
   display: none;
@@ -484,22 +484,117 @@ h1, h2, h3, h4 { font-family: 'Fredoka', sans-serif; }
 }
 .action-btn:active, .action-btn.pressed { background: rgba(232,85,58,0.7); }
 .action-btn.small { width: 44px; height: 44px; font-size: 0.65rem; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
-@media (hover: none) and (pointer: coarse), (max-width: 768px) {
+/* Mobile overlay controls — hidden by default */
+.mobile-overlay-controls { display: none; }
+.mobile-close-btn {
+  position: fixed; top: 12px; right: 12px; z-index: 3010;
+  top: calc(12px + env(safe-area-inset-top, 0px));
+  right: calc(12px + env(safe-area-inset-right, 0px));
+  width: 44px; height: 44px;
+  background: rgba(0,0,0,0.5); color: white; border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 50%; font-size: 1.2rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; touch-action: none; -webkit-user-select: none; user-select: none;
+}
+.mobile-close-btn:active { background: rgba(232,85,58,0.7); }
+.mobile-dpad {
+  position: fixed; bottom: 16px; left: 20px; z-index: 3010;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  left: calc(20px + env(safe-area-inset-left, 0px));
+  width: 140px; height: 140px; pointer-events: none;
+}
+.mdpad-btn {
+  position: absolute; pointer-events: auto;
+  width: 46px; height: 46px;
+  background: rgba(255,255,255,0.15);
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 12px;
+  color: white; font-size: 1.3rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; user-select: none; -webkit-user-select: none;
+  touch-action: none; opacity: 0.7;
+  transition: background 0.08s;
+}
+.mdpad-btn:active, .mdpad-btn.pressed { background: rgba(232,85,58,0.6); border-color: #E8553A; opacity: 1; }
+.mdpad-up    { top: 0; left: 47px; }
+.mdpad-down  { bottom: 0; left: 47px; }
+.mdpad-left  { top: 47px; left: 0; }
+.mdpad-right { top: 47px; right: 0; }
+.mobile-action-btns {
+  position: fixed; bottom: 16px; right: 20px; z-index: 3010;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  right: calc(20px + env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 10px; align-items: center;
+  pointer-events: none;
+}
+.mobile-act-btn {
+  pointer-events: auto;
+  width: 56px; height: 56px;
+  background: rgba(232,85,58,0.3);
+  border: 3px solid rgba(232,85,58,0.5);
+  border-radius: 50%;
+  color: white; font-size: 0.8rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; user-select: none; -webkit-user-select: none;
+  touch-action: none; opacity: 0.7;
+}
+.mobile-act-btn:active, .mobile-act-btn.pressed { background: rgba(232,85,58,0.7); opacity: 1; }
+.mobile-snd-btn {
+  pointer-events: auto;
+  width: 40px; height: 40px;
+  background: rgba(255,255,255,0.12);
+  border: 2px solid rgba(255,255,255,0.25);
+  border-radius: 50%;
+  color: white; font-size: 0.6rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; user-select: none; -webkit-user-select: none;
+  touch-action: none; opacity: 0.7;
+}
+.mobile-snd-btn:active { background: rgba(255,255,255,0.3); opacity: 1; }
+
+/* Tablet/desktop touch devices (wide screens) — show old controls below canvas */
+@media (hover: none) and (pointer: coarse) and (min-width: 769px) {
   .game-touch-dpad { display: block; }
   .game-controls-row { display: flex; }
-  .game-frame canvas {
-    width: min(640px, 100vw - 24px);
-  }
-  .game-close-btn { top: -36px; padding: 6px 14px; font-size: 0.85rem; }
-  .game-sound-btn { top: -36px; padding: 6px 12px; font-size: 0.75rem; }
 }
-@media (max-height: 600px) and (hover: none) {
-  .game-frame canvas { width: min(400px, 90vw); }
-  .game-touch-dpad { width: 120px; height: 120px; }
-  .dpad-btn { width: 38px; height: 38px; font-size: 1.1rem; }
-  .dpad-up { left: 41px; } .dpad-down { left: 41px; }
-  .dpad-left { top: 41px; } .dpad-right { top: 41px; }
-  .action-btn { width: 50px; height: 50px; }
+/* Also show touch controls on narrow screens that happen to be touch (redundant
+   with overlay, but ensures the d-pad stays hidden since we use the overlay) */
+
+/* Mobile: fullscreen canvas + overlaid controls
+   Use max-width alone (no hover/pointer) so it works on all small screens,
+   Chrome DevTools emulation, and touch tablets alike. */
+@media (max-width: 768px) {
+  .game-overlay.active {
+    padding: 0; background: #000;
+    gap: 0; /* remove gap between frame and controls row */
+  }
+  .game-frame {
+    position: fixed; inset: 0;
+    border: none; border-radius: 0; box-shadow: none;
+    width: 100%; height: 100%;
+    max-width: none;
+    display: flex; align-items: center; justify-content: center;
+    background: #000;
+  }
+  .game-frame::after, .game-frame::before { display: none; }
+  .game-frame canvas {
+    width: 100%; height: 100%;
+    aspect-ratio: unset;
+    object-fit: fill;
+  }
+  .game-close-btn, .game-sound-btn { display: none; }
+  .game-controls-row { display: none !important; }
+  .mobile-overlay-controls { display: block; }
+}
+/* Landscape small height — smaller controls */
+@media (max-width: 768px) and (max-height: 500px) {
+  .mobile-dpad { width: 110px; height: 110px; bottom: 8px; left: 12px; }
+  .mdpad-btn { width: 36px; height: 36px; font-size: 1rem; }
+  .mdpad-up { left: 37px; } .mdpad-down { left: 37px; }
+  .mdpad-left { top: 37px; } .mdpad-right { top: 37px; }
+  .mobile-act-btn { width: 44px; height: 44px; font-size: 0.7rem; }
+  .mobile-snd-btn { width: 32px; height: 32px; font-size: 0.55rem; }
+  .mobile-action-btns { bottom: 8px; right: 12px; }
 }
 /* Play button on story cards */
 .play-game-btn {
@@ -659,10 +754,11 @@ h1, h2, h3, h4 { font-family: 'Fredoka', sans-serif; }
 <div class="game-overlay" id="gameOverlay">
   <div class="game-frame" id="gameFrame">
     <button class="game-sound-btn" id="gameSoundBtn" onclick="toggleGameSound()">SND ON</button>
-    <button class="game-close-btn" id="gameCloseBtn">CLOSE</button>
+    <button class="game-close-btn" id="gameCloseBtn">&#10005;</button>
     <canvas id="gameCanvas" width="640" height="480"></canvas>
   </div>
-  <div class="game-controls-row">
+  <!-- Desktop controls row (below canvas) -->
+  <div class="game-controls-row" id="gameControlsRow">
     <div class="game-touch-dpad" id="gameTouchDpad">
       <div class="dpad-btn dpad-up" id="dpadUp">&#9650;</div>
       <div class="dpad-btn dpad-down" id="dpadDown">&#9660;</div>
@@ -672,6 +768,20 @@ h1, h2, h3, h4 { font-family: 'Fredoka', sans-serif; }
     <div class="game-action-btns">
       <div class="action-btn" id="dpadAction">ACT</div>
       <div class="action-btn small" id="dpadMute" onclick="toggleGameSound()">SND</div>
+    </div>
+  </div>
+  <!-- Mobile overlaid controls (fixed position, only visible on touch devices) -->
+  <div class="mobile-overlay-controls" id="mobileOverlayControls">
+    <button class="mobile-close-btn" id="mobileCloseBtn">&#10005;</button>
+    <div class="mobile-dpad" id="mobileDpad">
+      <div class="mdpad-btn mdpad-up" id="mdpadUp">&#9650;</div>
+      <div class="mdpad-btn mdpad-down" id="mdpadDown">&#9660;</div>
+      <div class="mdpad-btn mdpad-left" id="mdpadLeft">&#9664;</div>
+      <div class="mdpad-btn mdpad-right" id="mdpadRight">&#9654;</div>
+    </div>
+    <div class="mobile-action-btns">
+      <div class="mobile-act-btn" id="mdpadAction">ACT</div>
+      <div class="mobile-snd-btn" id="mdpadMute" onclick="toggleGameSound()">SND</div>
     </div>
   </div>
 </div>

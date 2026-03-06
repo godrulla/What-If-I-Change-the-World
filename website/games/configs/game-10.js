@@ -77,7 +77,7 @@
         }
       }
       engine._dustEmitter=engine.particles.addEmitter({type:'dust',rate:0.12,follow:engine.player});engine._dustEmitter.active=false;
-      engine.particles.addEmitter({type:'leaf',rate:1.5,canvasW:640,canvasH:480});
+      engine.particles.addEmitter({type:'leaf',rate:1.5,canvasW:engine.width,canvasH:engine.height});
       engine.patrols=[];
       [[10,10,1,0,5],[40,10,0,1,4],[10,28,0,-1,5],[40,28,-1,0,4]].forEach(([x,y,dx,dy,range])=>{
         const p=engine.addEntity(new Sprite({x:x*16,y:y*16,w:14,h:14,color:'#dc2626',type:'patrol'}));
@@ -86,6 +86,13 @@
         engine.patrols.push(p);
       });
       engine.ui=new GameUI(engine);
+      engine.ui.setObjectives([
+        {x:5*16,y:5*16,label:'1',text:lang==='en'?'Reach podium 1 to protect the water!':'Llega al podio 1 para proteger el agua!'},
+        {x:45*16,y:5*16,label:'2',text:lang==='en'?'Reach podium 2!':'Llega al podio 2!'},
+        {x:5*16,y:33*16,label:'3',text:lang==='en'?'Reach podium 3!':'Llega al podio 3!'},
+        {x:45*16,y:33*16,label:'4',text:lang==='en'?'Reach podium 4!':'Llega al podio 4!'},
+        {x:25*16,y:28*16,label:'5',text:lang==='en'?'Final podium — protect the water!':'Podio final — protege el agua!'}
+      ]);
     },
     onUpdate(engine,dt){
       const st=engine.gameState;
@@ -116,6 +123,7 @@
           engine.audio.collect();engine.shake(3,0.15);
           engine.particles.sparkle(pod.x-engine.camera.x+8,pod.y-engine.camera.y+8,'#4338CA',20);
           engine.ui.showNotification(st.lang==='en'?`Podium ${st.protected}/${st.total}!`:`Podio ${st.protected}/${st.total}!`,1.5);
+          engine.ui.advanceObjective();
           if(st.protected>=st.total){st.phase='win';engine.audio.stopMusic();engine.ui.showWin(st.lang==='en'?'WATER PROTECTED!':'AGUA PROTEGIDA!',st.lang==='en'?'Your voice made a difference!':'Tu voz hizo la diferencia!', 'heroic');}
         }
       });
@@ -128,7 +136,7 @@
       const st=engine.gameState;
       if(st.phase==='title'){engine.ui.renderTitle(st.lang==='en'?'THE WATER PROTECTOR':'EL PROTECTOR DEL AGUA',st.lang==='en'?'Reach podiums to protect water sources':'Llega a los podios para proteger el agua');return;}
       if(engine.ui.renderEndScreen()) return;
-      engine.ui.renderHUD();engine.ui.renderDialog(engine.deltaTime);engine.ui.renderNotification(engine.deltaTime);
+      engine.ui.renderHUD();engine.ui.renderHints(engine.camera);engine.ui.renderDialog(engine.deltaTime);engine.ui.renderNotification(engine.deltaTime);
     }
   };
 })();

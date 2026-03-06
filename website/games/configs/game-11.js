@@ -50,7 +50,7 @@
     onInit(engine){
       const lang=window.lang||'en';
       const puzzles=lang==='en'?PUZZLES_EN:PUZZLES_ES;
-      engine.gameState={phase:'title',lang,solved:0,total:5,puzzles,activePuzzle:null,selectedOpt:0,timeLeft:60,invincible:0};
+      engine.gameState={phase:'title',lang,solved:0,total:5,puzzles,activePuzzle:null,selectedOpt:0,timeLeft:60,invincible:0,puzzleCooldown:0};
       engine.player=engine.addEntity(new Sprite({x:20*16,y:15*16,w:16,h:16,speed:100,color:'#B45309',skinColor:'#8B5E3C',hairColor:'#1a1a1a'}));
       engine.puzzleSprites=[];
       const map=engine.tileMap;
@@ -88,7 +88,7 @@
         }
       }
       engine._dustEmitter=engine.particles.addEmitter({type:'dust',rate:0.12,follow:engine.player});engine._dustEmitter.active=false;
-      engine.particles.addEmitter({type:'leaf',rate:1.5,canvasW:640,canvasH:480});
+      engine.particles.addEmitter({type:'leaf',rate:1.5,canvasW:engine.width,canvasH:engine.height});
       engine.patrols=[];
       [[12,15,1,0,6],[28,20,0,1,5]].forEach(([x,y,dx,dy,range])=>{
         const p=engine.addEntity(new Sprite({x:x*16,y:y*16,w:14,h:14,color:'#dc2626',type:'patrol'}));
@@ -97,6 +97,13 @@
         engine.patrols.push(p);
       });
       engine.ui=new GameUI(engine);
+      engine.ui.setObjectives([
+        {x:6*16,y:7*16,label:'1',text:lang==='en'?'Solve puzzle 1!':'Resuelve el problema 1!'},
+        {x:21*16,y:5*16,label:'2',text:lang==='en'?'Solve puzzle 2!':'Resuelve el problema 2!'},
+        {x:36*16,y:7*16,label:'3',text:lang==='en'?'Solve puzzle 3!':'Resuelve el problema 3!'},
+        {x:11*16,y:21*16,label:'4',text:lang==='en'?'Solve puzzle 4!':'Resuelve el problema 4!'},
+        {x:31*16,y:23*16,label:'5',text:lang==='en'?'Final puzzle — you can do it!':'Ultimo problema — tu puedes!'}
+      ]);
     },
     onUpdate(engine,dt){
       const st=engine.gameState;
@@ -130,25 +137,30 @@
             engine.puzzleSprites[st.activePuzzle].solved=true;
             engine.audio.collect();
             engine.ui.showNotification(st.lang==='en'?'Correct!':'Correcto!',1.5);
+            engine.ui.advanceObjective();
             if(st.solved>=st.total){st.phase='win';engine.audio.stopMusic();engine.ui.showWin(st.lang==='en'?'ALL PUZZLES SOLVED!':'TODOS LOS PROBLEMAS RESUELTOS!',st.lang==='en'?'Numbers are beautiful!':'Los numeros son hermosos!', 'chimes');}
           } else {
             st.timeLeft-=10;engine.audio.hurt();engine.shake(5,0.2);
             engine.ui.showNotification(st.lang==='en'?'Wrong! -10 seconds!':'Incorrecto! -10 segundos!',1.5);
           }
           st.activePuzzle=null;
+          st.puzzleCooldown=0.5;
         }
         return;
       }
 
+      if(st.puzzleCooldown>0){st.puzzleCooldown-=dt;}
       const input=engine.getInput();
       engine.player.update(dt,input.dx,input.dy,engine.tileMap);
       engine.followCamera(engine.player);
       if(input.dx!==0||input.dy!==0){engine._dustEmitter.active=true;engine.playStep();}else{engine._dustEmitter.active=false;}
-      engine.puzzleSprites.forEach(ps=>{
-        if(!ps.solved&&CollisionSystem.isNear(engine.player,ps,18)){
-          st.activePuzzle=ps.puzzleIndex;st.selectedOpt=0;
-        }
-      });
+      if(st.puzzleCooldown<=0){
+        engine.puzzleSprites.forEach(ps=>{
+          if(!ps.solved&&CollisionSystem.isNear(engine.player,ps,18)){
+            st.activePuzzle=ps.puzzleIndex;st.selectedOpt=0;
+          }
+        });
+      }
       engine.ui.setHUD([
         {icon:st.lang==='en'?'Solved: ':'Resueltos: ',value:`${st.solved}/${st.total}`,color:'#B45309'},
         {icon:st.lang==='en'?'Time: ':'Tiempo: ',value:Math.ceil(st.timeLeft),color:st.timeLeft<20?'#dc2626':'#fff'}
@@ -158,7 +170,7 @@
       const st=engine.gameState;
       if(st.phase==='title'){engine.ui.renderTitle(st.lang==='en'?'THE NUMBER DREAMER':'EL SONADOR DE NUMEROS',st.lang==='en'?'Solve math puzzles across the land':'Resuelve problemas de matematicas');return;}
       if(engine.ui.renderEndScreen()) return;
-      engine.ui.renderHUD();engine.ui.renderDialog(engine.deltaTime);engine.ui.renderNotification(engine.deltaTime);
+      engine.ui.renderHUD();engine.ui.renderHints(engine.camera);engine.ui.renderDialog(engine.deltaTime);engine.ui.renderNotification(engine.deltaTime);
       // Puzzle overlay
       if(st.activePuzzle!==null){
         const puzzle=st.puzzles[st.activePuzzle];

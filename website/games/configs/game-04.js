@@ -81,7 +81,7 @@
       // School zone
       engine.schoolZone = {x:22*16,y:7*16,w:6*16,h:2*16};
       engine._dustEmitter = engine.particles.addEmitter({ type: 'dust', rate: 0.12, follow: engine.player }); engine._dustEmitter.active = false;
-      engine.particles.addEmitter({ type: 'leaf', rate: 1.5, canvasW: 640, canvasH: 480 });
+      engine.particles.addEmitter({ type: 'leaf', rate: 1.5, canvasW: engine.width, canvasH: engine.height });
 
       // Patrol enemies
       engine.patrols = [];
@@ -104,6 +104,7 @@
       });
 
       engine.ui = new GameUI(engine);
+      engine.ui.setObjectives([{x:25*16,y:8*16,label:'S',text:lang==='en'?'Find kids and lead them to school!':'Encuentra ninos y llevalos a la escuela!'}]);
     },
     onUpdate(engine,dt) {
       const st=engine.gameState;
@@ -183,7 +184,7 @@
       const st=engine.gameState;
       if(st.phase==='title'){engine.ui.renderTitle(st.lang==='en'?'THE SCHOOL THAT CLOSED':'LA ESCUELA QUE CERRO',st.lang==='en'?'Find kids and bring them to school':'Encuentra ninos y llevalos a la escuela');return;}
       if(engine.ui.renderEndScreen()) return;
-      engine.ui.renderHUD();engine.ui.renderDialog(engine.deltaTime);engine.ui.renderNotification(engine.deltaTime);
+      engine.ui.renderHUD();engine.ui.renderHints(engine.camera);engine.ui.renderDialog(engine.deltaTime);engine.ui.renderNotification(engine.deltaTime);
     }
   };
 })();

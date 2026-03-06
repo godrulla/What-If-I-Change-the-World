@@ -103,6 +103,18 @@
       });
 
       engine.ui=new GameUI(engine);
+
+      // Hint system: sequential part objectives + build station
+      const hintEN=['Find the Bicycle Wheel','Find the Drum','Find the Pedals','Find the Frame','Find the Belt','Find the Handle','Go to BUILD station!'];
+      const hintES=['Busca la Rueda','Busca el Tambor','Busca los Pedales','Busca la Estructura','Busca la Correa','Busca la Manija','Ve a la estacion BUILD!'];
+      const hints=lang==='en'?hintEN:hintES;
+      const objectives=[];
+      engine.partSprites.forEach(p => {
+        objectives.push({x:p.x,y:p.y,label:String(p.partId),text:hints[p.partId-1]});
+      });
+      objectives.sort((a,b)=>parseInt(a.label)-parseInt(b.label));
+      objectives.push({x:engine.buildSprite.x,y:engine.buildSprite.y,label:'B',text:hints[6]});
+      engine.ui.setObjectives(objectives);
     },
     onUpdate(engine,dt){
       const st=engine.gameState;
@@ -147,6 +159,7 @@
           part.active=false;part.visible=false;st.parts.push(part.partId);engine.removeEntity(part);
           engine.audio.collect();engine.shake(3,0.15);engine.particles.sparkle(screenX,screenY,part.color,20);
           engine.ui.showNotification(`${part.partName}! (${st.parts.length}/${st.total})`,2);
+          engine.ui.advanceObjective();
           if(st.parts.length===st.total) engine.ui.showDialog(st.lang==='en'?'All parts found! Go to the workshop to build!':'Todas las piezas! Ve al taller a construir!',3);
         }
       });
@@ -166,7 +179,7 @@
       const st=engine.gameState;
       if(st.phase==='title'){engine.ui.renderTitle(st.lang==='en'?'WASHING MACHINE OF WHEELS':'LAVADORA DE RUEDAS',st.lang==='en'?'Collect parts to build the machine':'Recoge piezas para construir la maquina');return;}
       if(engine.ui.renderEndScreen()) return;
-      engine.ui.renderHUD();engine.ui.renderDialog(engine.deltaTime);engine.ui.renderNotification(engine.deltaTime);
+      engine.ui.renderHUD();engine.ui.renderHints(engine.camera);engine.ui.renderDialog(engine.deltaTime);engine.ui.renderNotification(engine.deltaTime);
     }
   };
 })();

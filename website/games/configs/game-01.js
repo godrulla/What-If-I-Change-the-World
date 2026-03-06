@@ -185,6 +185,21 @@
       });
 
       engine.ui = new GameUI(engine);
+
+      // Hint system: sequential objectives for windmill parts + tower
+      const hintLabel = lang === 'en'
+        ? ['Find the Bicycle Wheel', 'Find the Fan Blades', 'Find the Pipes', 'Find the Generator', 'Find the Tower Frame', 'Go to the tower!']
+        : ['Busca la Rueda', 'Busca las Aspas', 'Busca las Tuberias', 'Busca el Generador', 'Busca la Estructura', 'Ve a la torre!'];
+      const objectives = [];
+      // Parts 1-5: find their positions from partSprites
+      engine.partSprites.forEach(p => {
+        objectives.push({ x: p.x, y: p.y, label: String(p.partId), text: hintLabel[p.partId - 1] });
+      });
+      // Sort by partId order
+      objectives.sort((a, b) => parseInt(a.label) - parseInt(b.label));
+      // Tower as final objective
+      objectives.push({ x: engine.towerSprite.x, y: engine.towerSprite.y, label: 'T', text: hintLabel[5] });
+      engine.ui.setObjectives(objectives);
     },
 
     onUpdate(engine, dt) {
@@ -266,6 +281,7 @@
             ? `Found: ${part.partName}! (${collected}/${state.totalParts})`
             : `Encontrado: ${part.partName}! (${collected}/${state.totalParts})`;
           engine.ui.showNotification(msg, 2.5);
+          engine.ui.advanceObjective();
 
           if (collected === state.totalParts) {
             const deliverMsg = state.lang === 'en'
@@ -310,6 +326,7 @@
       if (engine.ui.renderEndScreen()) return;
 
       engine.ui.renderHUD();
+      engine.ui.renderHints(engine.camera);
       engine.ui.renderDialog(engine.deltaTime);
       engine.ui.renderNotification(engine.deltaTime);
 

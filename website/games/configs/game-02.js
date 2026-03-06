@@ -105,7 +105,7 @@
         ctx.fillRect(x,y+4,16,3);
       };
       engine._dustEmitter = engine.particles.addEmitter({ type: 'dust', rate: 0.12, follow: engine.player }); engine._dustEmitter.active = false;
-      engine.particles.addEmitter({ type: 'leaf', rate: 1.5, canvasW: 640, canvasH: 480 });
+      engine.particles.addEmitter({ type: 'leaf', rate: 1.5, canvasW: engine.width, canvasH: engine.height });
 
       // Patrol enemies
       engine.patrols = [];
@@ -128,6 +128,7 @@
       });
 
       engine.ui = new GameUI(engine);
+      engine.ui.setObjectives([{x:engine.wellSprite.x,y:engine.wellSprite.y,label:'W',text:lang==='en'?'Collect donations, then dig the well!':'Recoge donaciones y cava el pozo!'}]);
     },
     onUpdate(engine, dt) {
       const st = engine.gameState;
@@ -186,7 +187,7 @@
       const st=engine.gameState;
       if (st.phase==='title') { engine.ui.renderTitle(st.lang==='en'?'THE BOY AND THE WELL':'EL NINO Y EL POZO',st.lang==='en'?'Collect donations to dig a well':'Recoge donaciones para cavar un pozo'); return; }
       if (engine.ui.renderEndScreen()) return;
-      engine.ui.renderHUD(); engine.ui.renderDialog(engine.deltaTime); engine.ui.renderNotification(engine.deltaTime);
+      engine.ui.renderHUD(); engine.ui.renderHints(engine.camera); engine.ui.renderDialog(engine.deltaTime); engine.ui.renderNotification(engine.deltaTime);
     }
   };
 })();

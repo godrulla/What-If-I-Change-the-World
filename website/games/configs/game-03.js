@@ -23,7 +23,7 @@
         ctx.fillStyle='#FFD700'; ctx.fillRect(x+28,y+6,6,3); // net
       };
       engine._dustEmitter = engine.particles.addEmitter({ type: 'dust', rate: 0.12, follow: engine.player }); engine._dustEmitter.active = false;
-      engine.particles.addEmitter({ type: 'bubble', rate: 0.3, x: 320, y: 460, canvasW: 640, canvasH: 480 });
+      engine.particles.addEmitter({ type: 'bubble', rate: 0.3, x: 320, y: 460, canvasW: engine.width, canvasH: engine.height });
       engine.ui = new GameUI(engine);
     },
 
