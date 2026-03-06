@@ -62,7 +62,7 @@
     onInit(engine) {
       const lang = window.lang || 'en';
       engine.gameState = { phase:'title', coins:0, totalCoins:8, lang, dug:false, timeLeft:90, invincible:0 };
-      engine.player = engine.addEntity(new Sprite({ x:32, y:20*16, w:16, h:16, speed:120, color:'#2E86AB' }));
+      engine.player = engine.addEntity(new Sprite({ x:32, y:20*16, w:16, h:16, speed:120, color:'#2E86AB', skinColor:'#FFDAB9', hairColor:'#C4A265' }));
       engine.coinSprites = [];
       const map = engine.tileMap;
       for (let r=0;r<map.rows;r++) for (let c=0;c<map.cols;c++) {
@@ -72,13 +72,24 @@
           s.render = function(ctx) {
             if (!this.visible) return;
             const px=Math.floor(this.x), py=Math.floor(this.y);
-            const bounce = Math.sin(Date.now()/200+this.x)*2;
+            const bob = Math.sin(Date.now()/350 + px) * 2;
+            // Coin body
             ctx.fillStyle='#FFD700';
             ctx.beginPath();
-            ctx.arc(px+8,py+8+bounce,6,0,Math.PI*2);
+            ctx.arc(px+8,py+8+bob,6,0,Math.PI*2);
             ctx.fill();
-            ctx.fillStyle='#DAA520';
-            ctx.fillRect(px+6,py+6+bounce,4,4);
+            // Coin rim
+            ctx.strokeStyle='#B8860B';
+            ctx.lineWidth=1;
+            ctx.beginPath();
+            ctx.arc(px+8,py+8+bob,5,0,Math.PI*2);
+            ctx.stroke();
+            // Dollar sign
+            ctx.fillStyle='#B8860B';
+            ctx.font='bold 9px monospace';
+            ctx.textAlign='center';
+            ctx.textBaseline='middle';
+            ctx.fillText('$',px+8,py+8+bob);
           };
           engine.coinSprites.push(s);
         }
@@ -122,6 +133,7 @@
       const st = engine.gameState;
       if (st.phase==='title') { if (engine.keys['Space']||engine.keys['Enter']) { st.phase='playing'; engine.audio.click(); engine.audio.startMusic('well'); engine.ui.showDialog(st.lang==='en'?'Collect donations from the village, then dig the well!':'Recoge donaciones del pueblo y luego cava el pozo!',4); } return; }
       if (st.phase==='win') return;
+      if (st.phase === 'lose') { if (engine.keys['KeyR']) { engine.stop(); document.getElementById('gameOverlay').classList.remove('active'); setTimeout(() => openGame(1), 100); } return; }
       const input=engine.getInput();
       engine.player.update(dt,input.dx,input.dy,engine.tileMap);
       engine.followCamera(engine.player);
@@ -165,8 +177,6 @@
         engine.audio.stopMusic();
         engine.ui.showWin(st.lang==='en'?'WELL COMPLETE!':'POZO COMPLETO!', st.lang==='en'?'Clean water for everyone!':'Agua limpia para todos!', 'applause');
       }
-      if (st.phase === 'lose' && engine.keys['KeyR']) { engine.stop(); document.getElementById('gameOverlay').classList.remove('active'); setTimeout(() => openGame(1), 100); }
-
       engine.ui.setHUD([
         {icon:st.lang==='en'?'Donations: ':'Donaciones: ',value:`${st.coins}/${st.totalCoins}`,color:'#FFD700'},
         {icon:'Time: ',value:Math.ceil(st.timeLeft)+'s',color:st.timeLeft<20?'#dc2626':'#fff'}

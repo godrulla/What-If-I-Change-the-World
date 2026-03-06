@@ -15,7 +15,7 @@
       const lang = window.lang || 'en';
       const names = lang === 'en' ? INVENTIONS_EN : INVENTIONS_ES;
       engine.gameState = { phase: 'title', lang, room: 0, totalRooms: 5, names, discovered: 0, itemFound: false, roomTimer: 20, invincible: 0 };
-      engine.player = engine.addEntity(new Sprite({ x: 100, y: 360, w: 16, h: 16, speed: 110, color: '#059669' }));
+      engine.player = engine.addEntity(new Sprite({ x: 100, y: 360, w: 16, h: 16, speed: 110, color: '#059669', skinColor: '#FFDAB9', hairColor: '#C4A265' }));
       engine.roomObstacles = [];
       for (let i = 0; i < 2; i++) {
         engine.roomObstacles.push({ x: 200 + i * 200, y: 200, vx: 60 + Math.random() * 40, vy: 50 + Math.random() * 40 });
@@ -111,16 +111,26 @@
       ctx.fillRect(400, 80, 80, 25);
       ctx.fillRect(250, 400, 70, 20);
 
-      // Item to find (if not found)
+      // Item to find (if not found) - light bulb discovery icon
       if (!st.itemFound) {
         const itemPositions = [[500, 200], [150, 300], [400, 150], [300, 350], [480, 280]];
         const [ix, iy] = itemPositions[st.room];
         const pulse = Math.sin(Date.now() / 200) * 0.3 + 0.7;
+        const color = INV_COLORS[st.room];
         ctx.globalAlpha = pulse;
-        ctx.fillStyle = INV_COLORS[st.room];
-        ctx.beginPath(); ctx.arc(ix, iy, 10, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = '#fff';
-        ctx.beginPath(); ctx.arc(ix, iy, 4, 0, Math.PI * 2); ctx.fill();
+        // Outer glow
+        ctx.fillStyle = color;
+        ctx.beginPath(); ctx.arc(ix, iy, 13, 0, Math.PI * 2); ctx.fill();
+        // Bulb glass body
+        ctx.fillStyle = '#fffde7';
+        ctx.beginPath(); ctx.arc(ix, iy - 2, 7, 0, Math.PI * 2); ctx.fill();
+        // Bulb base/collar
+        ctx.fillStyle = '#9e9e9e';
+        ctx.fillRect(ix - 3, iy + 4, 6, 2);
+        ctx.fillRect(ix - 2, iy + 6, 4, 2);
+        // Filament shine
+        ctx.fillStyle = color;
+        ctx.beginPath(); ctx.arc(ix - 1, iy - 3, 2, 0, Math.PI * 2); ctx.fill();
         ctx.globalAlpha = 1;
       }
 

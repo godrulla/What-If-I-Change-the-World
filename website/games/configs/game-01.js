@@ -96,7 +96,8 @@
 
       // Player
       engine.player = engine.addEntity(new Sprite({
-        x: 30 * 16, y: 22 * 16, w: 16, h: 16, speed: 100, color: '#E8553A'
+        x: 30 * 16, y: 22 * 16, w: 16, h: 16, speed: 100, color: '#E8553A',
+        skinColor: '#6B4226', hairColor: '#1a1a1a'
       }));
 
       // Dust emitter for player movement
@@ -126,21 +127,20 @@
             partSprite.render = function(ctx) {
               if (!this.visible) return;
               const x = Math.floor(this.x), y = Math.floor(this.y);
-              const pulse = Math.sin(Date.now() / 300) * 0.3 + 0.7;
-              ctx.globalAlpha = pulse;
-              ctx.fillStyle = this.color;
-              ctx.fillRect(x + 1, y + 1, 14, 14);
-              // Shine
-              ctx.fillStyle = '#fff';
-              ctx.fillRect(x + 3, y + 3, 4, 4);
-              ctx.globalAlpha = 1;
-              ctx.strokeStyle = '#fff';
-              ctx.lineWidth = 1;
-              ctx.strokeRect(x + 1, y + 1, 14, 14);
-              // Floating indicator
-              const floatY = Math.sin(Date.now() / 400) * 3;
+              const bob = Math.sin(Date.now() / 400 + this.partId) * 2;
+              // Gear icon: center bar + cross bar + vertical bar
               ctx.fillStyle = '#FFD700';
-              ctx.fillRect(x + 6, y - 6 + floatY, 4, 4);
+              ctx.fillRect(x + 4, y + 2 + bob, 8, 12);
+              ctx.fillRect(x + 2, y + 5 + bob, 12, 6);
+              ctx.fillRect(x + 6, y + bob, 4, 16);
+              // Gear teeth (corner bumps)
+              ctx.fillRect(x + 3, y + 1 + bob, 2, 2);
+              ctx.fillRect(x + 11, y + 1 + bob, 2, 2);
+              ctx.fillRect(x + 3, y + 13 + bob, 2, 2);
+              ctx.fillRect(x + 11, y + 13 + bob, 2, 2);
+              // Center hole
+              ctx.fillStyle = '#8B6914';
+              ctx.fillRect(x + 6, y + 6 + bob, 4, 4);
             };
             engine.partSprites.push(partSprite);
           }
@@ -204,6 +204,7 @@
       }
 
       if (state.phase === 'win') return;
+      if (state.phase === 'lose') { if (engine.keys['KeyR']) { engine.stop(); document.getElementById('gameOverlay').classList.remove('active'); setTimeout(() => openGame(0), 100); } return; }
 
       const input = engine.getInput();
       const wasMoving = engine.player.moving;
@@ -288,8 +289,6 @@
           engine.ui.showWin(winTitle, winSub, 'heroic');
         }
       }
-
-      if (state.phase === 'lose' && engine.keys['KeyR']) { engine.stop(); document.getElementById('gameOverlay').classList.remove('active'); setTimeout(() => openGame(0), 100); }
 
       const partsLabel = state.lang === 'en' ? 'Parts: ' : 'Piezas: ';
       engine.ui.setHUD([

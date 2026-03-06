@@ -46,7 +46,7 @@
       const lang=window.lang||'en';
       const names=lang==='en'?PARTS_EN:PARTS_ES;
       engine.gameState={phase:'title',lang,parts:[],total:6,names,built:false,timeLeft:90,invincible:0};
-      engine.player=engine.addEntity(new Sprite({x:25*16,y:19*16,w:16,h:16,speed:100,color:'#F4A623'}));
+      engine.player=engine.addEntity(new Sprite({x:25*16,y:19*16,w:16,h:16,speed:100,color:'#F4A623',skinColor:'#C68642',hairColor:'#2d1b00'}));
       engine.partSprites=[];
       const map=engine.tileMap;
       for(let r=0;r<map.rows;r++) for(let c=0;c<map.cols;c++){
@@ -54,7 +54,27 @@
         if(obj>=1&&obj<=6){
           const s=engine.addEntity(new Sprite({x:c*16,y:r*16,w:16,h:16,color:PART_COLORS[obj],type:'part'}));
           s.partId=obj; s.partName=names[obj];
-          s.render=function(ctx){if(!this.visible)return;const x=Math.floor(this.x),y=Math.floor(this.y);const p=Math.sin(Date.now()/300)*0.3+0.7;ctx.globalAlpha=p;ctx.fillStyle=this.color;ctx.fillRect(x+1,y+1,14,14);ctx.fillStyle='#fff';ctx.fillRect(x+3,y+3,4,4);ctx.globalAlpha=1;ctx.strokeStyle='#fff';ctx.lineWidth=1;ctx.strokeRect(x+1,y+1,14,14);};
+          s.render=function(ctx){
+            if(!this.visible)return;
+            const x=Math.floor(this.x),y=Math.floor(this.y);
+            const bob=Math.sin(Date.now()/400+this.partId)*2;
+            // Wrench handle
+            ctx.fillStyle='#C0C0C0';
+            ctx.fillRect(x+7,y+4+bob,3,10);
+            // Wrench head (open-end)
+            ctx.fillStyle='#A8A8A8';
+            ctx.fillRect(x+3,y+1+bob,10,5);
+            ctx.fillStyle='#1a1a1a';
+            ctx.fillRect(x+5,y+2+bob,2,3);   // left jaw gap
+            ctx.fillRect(x+10,y+2+bob,2,3);  // right jaw gap
+            // Gear accent on handle
+            ctx.fillStyle='#FFD700';
+            ctx.fillRect(x+7,y+9+bob,3,2);
+            // Outline
+            ctx.strokeStyle='#888';
+            ctx.lineWidth=1;
+            ctx.strokeRect(x+3,y+1+bob,10,5);
+          };
           engine.partSprites.push(s);
         }
       }
@@ -88,6 +108,7 @@
       const st=engine.gameState;
       if(st.phase==='title'){if(engine.keys['Space']||engine.keys['Enter']){st.phase='playing';engine.audio.click();engine.audio.startMusic('machine');engine.ui.showDialog(st.lang==='en'?'Find 6 parts to build a pedal-powered washing machine!':'Encuentra 6 piezas para construir una lavadora a pedales!',4);}return;}
       if(st.phase==='win') return;
+      if(st.phase==='lose'){if(engine.keys['KeyR']){engine.stop();document.getElementById('gameOverlay').classList.remove('active');setTimeout(()=>openGame(4),100);}return;}
       const input=engine.getInput();
       engine.player.update(dt,input.dx,input.dy,engine.tileMap);
       engine.followCamera(engine.player);
@@ -134,7 +155,7 @@
         engine.audio.stopMusic();
         engine.ui.showWin(st.lang==='en'?'MACHINE BUILT!':'MAQUINA CONSTRUIDA!',st.lang==='en'?'Clean clothes for the village!':'Ropa limpia para el pueblo!', 'march');
       }
-      if (st.phase === 'lose' && engine.keys['KeyR']) { engine.stop(); document.getElementById('gameOverlay').classList.remove('active'); setTimeout(() => openGame(4), 100); }
+
 
       engine.ui.setHUD([
         {icon:st.lang==='en'?'Parts: ':'Piezas: ',value:`${st.parts.length}/${st.total}`,color:'#F4A623'},

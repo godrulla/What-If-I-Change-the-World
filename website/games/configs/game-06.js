@@ -41,7 +41,7 @@
     onInit(engine){
       const lang=window.lang||'en';
       engine.gameState={phase:'title',lang,tested:[],total:6,foundContam:false,timeLeft:75,invincible:0};
-      engine.player=engine.addEntity(new Sprite({x:25*16,y:25*16,w:16,h:16,speed:100,color:'#9F1239'}));
+      engine.player=engine.addEntity(new Sprite({x:25*16,y:25*16,w:16,h:16,speed:100,color:'#9F1239',skinColor:'#8B5E3C',hairColor:'#1a1a1a',isFemale:true}));
       engine.sources=[];
       const map=engine.tileMap;
       for(let r=0;r<map.rows;r++) for(let c=0;c<map.cols;c++){
@@ -88,6 +88,7 @@
       const st=engine.gameState;
       if(st.phase==='title'){if(engine.keys['Space']||engine.keys['Enter']){st.phase='playing';engine.audio.click();engine.audio.startMusic('poison');engine.ui.showDialog(st.lang==='en'?'Test all 6 water sources to find the contaminated one! Walk up to each source.':'Prueba las 6 fuentes de agua para encontrar la contaminada! Camina hacia cada fuente.',4);}return;}
       if(st.phase==='win') return;
+      if(st.phase==='lose'){if(engine.keys['KeyR']){engine.stop();document.getElementById('gameOverlay').classList.remove('active');setTimeout(()=>openGame(5),100);}return;}
       const input=engine.getInput();
       engine.player.update(dt,input.dx,input.dy,engine.tileMap);
       engine.followCamera(engine.player);
@@ -135,7 +136,7 @@
           }
         }
       });
-      if (st.phase === 'lose' && engine.keys['KeyR']) { engine.stop(); document.getElementById('gameOverlay').classList.remove('active'); setTimeout(() => openGame(5), 100); }
+
 
       engine.ui.setHUD([
         {icon:st.lang==='en'?'Tested: ':'Probadas: ',value:`${st.tested.length}/${st.total}`,color:'#2E86AB'},

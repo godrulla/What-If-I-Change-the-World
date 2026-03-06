@@ -266,6 +266,17 @@ class GameUI {
         ctx.fillStyle = '#fff';
         ctx.fillText(screen.subtitle, w / 2, h / 2 + 30);
       }
+
+      // Retry prompt (blinking, works on mobile too)
+      if (this._winTimer > 0.8) {
+        const blink = Math.sin(Date.now() / 400) > 0;
+        if (blink) {
+          ctx.font = 'bold 14px monospace';
+          ctx.fillStyle = '#FFD700';
+          const isMobile = 'ontouchstart' in window;
+          ctx.fillText(isMobile ? 'TAP TO RETRY' : 'PRESS R TO RETRY', w / 2, h / 2 + 65);
+        }
+      }
     }
 
     return true;

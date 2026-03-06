@@ -42,7 +42,7 @@
     onInit(engine){
       const lang=window.lang||'en';
       engine.gameState={phase:'title',lang,bricks:0,total:8,built:false,timeLeft:75,invincible:0};
-      engine.player=engine.addEntity(new Sprite({x:20*16,y:15*16,w:16,h:16,speed:100,color:'#0891B2'}));
+      engine.player=engine.addEntity(new Sprite({x:20*16,y:15*16,w:16,h:16,speed:100,color:'#0891B2',skinColor:'#FFDAB9',hairColor:'#8B4513'}));
       engine.brickSprites=[];
       const map=engine.tileMap;
       for(let r=0;r<map.rows;r++) for(let c=0;c<map.cols;c++){
@@ -50,13 +50,19 @@
         if(obj>=1&&obj<=8){
           const s=engine.addEntity(new Sprite({x:c*16,y:r*16,w:16,h:16,color:BRICK_COLORS[obj],type:'brick'}));
           s.brickId=obj;
-          s.render=function(ctx){if(!this.visible)return;const x=Math.floor(this.x),y=Math.floor(this.y);
-            const bounce=Math.sin(Date.now()/250+this.brickId)*2;
-            ctx.fillStyle=this.color;
-            // Lego brick shape
-            ctx.fillRect(x+2,y+4+bounce,12,8);
-            ctx.fillRect(x+3,y+2+bounce,4,3);ctx.fillRect(x+9,y+2+bounce,4,3);
-            ctx.fillStyle='rgba(255,255,255,0.3)';ctx.fillRect(x+3,y+4+bounce,4,2);
+          s.render=function(ctx){
+            if(!this.visible)return;
+            const x=Math.floor(this.x),y=Math.floor(this.y);
+            const bob=Math.sin(Date.now()/400+this.brickId)*2;
+            const colors=['#dc2626','#2E86AB','#22C55E','#FFD700','#E8553A','#7C3AED','#0891B2','#F4A623'];
+            ctx.fillStyle=colors[this.brickId%8];
+            ctx.fillRect(x+1,y+4+bob,14,10);
+            // Studs on top
+            ctx.fillRect(x+2,y+1+bob,4,4);
+            ctx.fillRect(x+9,y+1+bob,4,4);
+            // Highlight
+            ctx.fillStyle='rgba(255,255,255,0.3)';
+            ctx.fillRect(x+2,y+5+bob,12,3);
           };
           engine.brickSprites.push(s);
         }

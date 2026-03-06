@@ -21,6 +21,11 @@ class Sprite {
     this.totalFrames = 4;
     this.moving = false;
 
+    // Character appearance
+    this.skinColor = config.skinColor || '#FFDAB9';
+    this.hairColor = config.hairColor || '#1a1a2e';
+    this.isFemale = config.isFemale || false;
+
     // Pixel art definition (programmatic)
     this.pixels = config.pixels || null;
     this.colors = config.colors || {};
@@ -87,34 +92,52 @@ class Sprite {
     const x = Math.floor(this.x);
     const y = Math.floor(this.y);
 
+    // Hair (behind head for female characters)
+    if (this.isFemale) {
+      ctx.fillStyle = this.hairColor;
+      ctx.fillRect(x + 3, y - 1, 10, 9);
+      // Side hair strands
+      ctx.fillRect(x + 2, y + 2, 2, 8);
+      ctx.fillRect(x + 12, y + 2, 2, 8);
+    } else {
+      // Male hair (on top)
+      ctx.fillStyle = this.hairColor;
+      ctx.fillRect(x + 4, y - 1, 8, 3);
+    }
+
+    // Head (skin color)
+    ctx.fillStyle = this.skinColor;
+    ctx.fillRect(x + 4, y + 1, 8, 7);
+
     // Body
     ctx.fillStyle = this.color;
-    ctx.fillRect(x + 2, y + 4, 12, 10);
-
-    // Head
-    ctx.fillStyle = '#FFDAB9';
-    ctx.fillRect(x + 4, y, 8, 7);
+    ctx.fillRect(x + 2, y + 8, 12, 6);
 
     // Eyes
     ctx.fillStyle = '#000';
     if (this.direction === 'left') {
-      ctx.fillRect(x + 4, y + 3, 2, 2);
+      ctx.fillRect(x + 5, y + 4, 2, 2);
     } else if (this.direction === 'right') {
-      ctx.fillRect(x + 10, y + 3, 2, 2);
+      ctx.fillRect(x + 9, y + 4, 2, 2);
     } else {
-      ctx.fillRect(x + 5, y + 3, 2, 2);
-      ctx.fillRect(x + 9, y + 3, 2, 2);
+      ctx.fillRect(x + 5, y + 4, 2, 2);
+      ctx.fillRect(x + 9, y + 4, 2, 2);
     }
 
+    // Mouth
+    ctx.fillStyle = this.skinColor === '#8B6914' || this.skinColor === '#6B4226' || this.skinColor === '#8B5E3C'
+      ? '#C4956A' : '#E8A090';
+    ctx.fillRect(x + 6, y + 6, 4, 1);
+
     // Legs (animated)
-    ctx.fillStyle = '#4a3728';
+    ctx.fillStyle = this.skinColor;
     if (this.moving) {
       const legOffset = this.frame % 2 === 0 ? 0 : 2;
-      ctx.fillRect(x + 4, y + 13, 3, 3 + legOffset);
-      ctx.fillRect(x + 9, y + 13, 3, 3 + (2 - legOffset));
+      ctx.fillRect(x + 4, y + 14, 3, 2 + legOffset);
+      ctx.fillRect(x + 9, y + 14, 3, 2 + (2 - legOffset));
     } else {
-      ctx.fillRect(x + 4, y + 13, 3, 3);
-      ctx.fillRect(x + 9, y + 13, 3, 3);
+      ctx.fillRect(x + 4, y + 14, 3, 2);
+      ctx.fillRect(x + 9, y + 14, 3, 2);
     }
   }
 

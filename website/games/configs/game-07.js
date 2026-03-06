@@ -35,7 +35,7 @@
     onInit(engine){
       const lang=window.lang||'en';
       engine.gameState={phase:'title',lang,planted:0,total:10,seeds:3,maxSeeds:3,timeLeft:45,invincible:0};
-      engine.player=engine.addEntity(new Sprite({x:25*16,y:19*16,w:16,h:16,speed:110,color:'#22C55E'}));
+      engine.player=engine.addEntity(new Sprite({x:25*16,y:19*16,w:16,h:16,speed:110,color:'#22C55E',skinColor:'#6B4226',hairColor:'#1a1a1a',isFemale:true}));
       engine.spots=[];
       engine.plantedTrees=[];
       const map=engine.tileMap;
@@ -46,11 +46,34 @@
           s.planted=false;
           s.render=function(ctx){if(!this.visible)return;const x=Math.floor(this.x),y=Math.floor(this.y);
             if(this.planted){
-              ctx.fillStyle='#4a2a0a';ctx.fillRect(x+6,y+4,4,12); // trunk
-              ctx.fillStyle='#22C55E';ctx.beginPath();ctx.arc(x+8,y+4,7,0,Math.PI*2);ctx.fill(); // leaves
+              // Trunk
+              ctx.fillStyle='#5C3317';
+              ctx.fillRect(x+6,y+7,4,9);
+              // Roots
+              ctx.fillStyle='#4a2a0a';
+              ctx.fillRect(x+4,y+14,3,2);
+              ctx.fillRect(x+10,y+14,3,2);
+              // Canopy — layered circles for depth
+              ctx.fillStyle='#16a34a';
+              ctx.beginPath();ctx.arc(x+8,y+5,7,0,Math.PI*2);ctx.fill();
+              ctx.fillStyle='#22C55E';
+              ctx.beginPath();ctx.arc(x+6,y+4,4,0,Math.PI*2);ctx.fill();
+              ctx.fillStyle='#4ade80';
+              ctx.beginPath();ctx.arc(x+9,y+3,3,0,Math.PI*2);ctx.fill();
             } else {
-              ctx.strokeStyle='#22C55E';ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.strokeRect(x+2,y+2,12,12);ctx.setLineDash([]);
-              ctx.fillStyle='#22C55E';ctx.font='bold 8px monospace';ctx.textAlign='center';ctx.fillText('PLANT',x+8,y+10);
+              // Seed icon — oval with sprout
+              ctx.fillStyle='#92400e';
+              ctx.beginPath();ctx.arc(x+8,y+11,4,0,Math.PI*2);ctx.fill(); // seed
+              ctx.fillStyle='#22C55E';
+              ctx.fillRect(x+7,y+5,2,7);  // sprout stem
+              ctx.fillRect(x+4,y+7,4,2);  // left leaf
+              ctx.fillRect(x+9,y+5,4,2);  // right leaf
+              // Dashed outline for the planting zone
+              ctx.strokeStyle='rgba(34,197,94,0.5)';
+              ctx.lineWidth=1;
+              ctx.setLineDash([3,3]);
+              ctx.strokeRect(x+1,y+1,14,14);
+              ctx.setLineDash([]);
             }
           };
           engine.spots.push(s);
@@ -86,7 +109,8 @@
     onUpdate(engine,dt){
       const st=engine.gameState;
       if(st.phase==='title'){if(engine.keys['Space']||engine.keys['Enter']){st.phase='playing';engine.audio.click();engine.audio.startMusic('trees');engine.ui.showDialog(st.lang==='en'?'Plant 10 trees before time runs out! Get seeds from the well.':'Planta 10 arboles antes de que se acabe el tiempo! Consigue semillas del pozo.',4);}return;}
-      if(st.phase==='win'||st.phase==='lose') return;
+      if(st.phase==='win') return;
+      if(st.phase==='lose'){if(engine.keys['KeyR']){engine.stop();document.getElementById('gameOverlay').classList.remove('active');setTimeout(()=>openGame(6),100);}return;}
       st.timeLeft-=dt;
       if(st.timeLeft<=0){st.phase='lose';engine.audio.stopMusic();engine.ui.showLose(st.lang==='en'?'TIME IS UP!':'SE ACABO EL TIEMPO!',st.lang==='en'?`Planted ${st.planted}/${st.total}. Press R to retry.`:`Plantaste ${st.planted}/${st.total}. Presiona R.`);return;}
 
@@ -129,7 +153,6 @@
           if(st.planted>=st.total){st.phase='win';engine.audio.stopMusic();engine.ui.showWin(st.lang==='en'?'FOREST PLANTED!':'BOSQUE PLANTADO!',st.lang==='en'?'The desert is turning green!':'El desierto se esta volviendo verde!', 'choir');}
         }
       });
-      if(st.phase==='lose'&&engine.keys['KeyR']){engine.stop();document.getElementById('gameOverlay').classList.remove('active');setTimeout(()=>openGame(6),100);}
       engine.ui.setHUD([
         {icon:'Trees: ',value:`${st.planted}/${st.total}`,color:'#22C55E'},
         {icon:'Seeds: ',value:`${st.seeds}`,color:'#F4A623'},

@@ -39,7 +39,7 @@
     onInit(engine){
       const lang=window.lang||'en';
       engine.gameState={phase:'title',lang,protected:0,total:5,timeLeft:90,invincible:0};
-      engine.player=engine.addEntity(new Sprite({x:25*16,y:22*16,w:16,h:16,speed:100,color:'#4338CA'}));
+      engine.player=engine.addEntity(new Sprite({x:25*16,y:22*16,w:16,h:16,speed:100,color:'#4338CA',skinColor:'#C68642',hairColor:'#1a1a1a',isFemale:true}));
       engine.podiums=[];
       const map=engine.tileMap;
       for(let r=0;r<map.rows;r++) for(let c=0;c<map.cols;c++){
@@ -47,14 +47,29 @@
         if(obj>=1&&obj<=5){
           const s=engine.addEntity(new Sprite({x:c*16,y:r*16,w:16,h:16,color:'#4338CA',type:'podium'}));
           s.reached=false;
-          s.render=function(ctx){if(!this.visible)return;const x=Math.floor(this.x),y=Math.floor(this.y);
+          s.render=function(ctx){
+            if(!this.visible)return;
+            const x=Math.floor(this.x),y=Math.floor(this.y);
             if(this.reached){
-              ctx.fillStyle='#22C55E';ctx.fillRect(x,y+8,16,8);ctx.fillStyle='#16a34a';ctx.fillRect(x+4,y,8,10);
-              ctx.fillStyle='#fff';ctx.font='bold 8px monospace';ctx.textAlign='center';ctx.fillText('OK',x+8,y+6);
+              // Stage/pedestal - activated (green)
+              ctx.fillStyle='#16a34a';ctx.fillRect(x+2,y+10,12,6);
+              ctx.fillStyle='#22C55E';ctx.fillRect(x+4,y+6,8,5);
+              // Checkmark icon
+              ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();
+              ctx.moveTo(x+5,y+9);ctx.lineTo(x+8,y+12);ctx.lineTo(x+12,y+5);
+              ctx.stroke();ctx.lineWidth=1;
             } else {
+              // Stage/pedestal - waiting (pulsing blue)
               const pulse=Math.sin(Date.now()/300)*0.2+0.8;ctx.globalAlpha=pulse;
-              ctx.fillStyle='#4338CA';ctx.fillRect(x,y+8,16,8);ctx.fillStyle='#6366f1';ctx.fillRect(x+4,y,8,10);
-              ctx.fillStyle='#FFD700';ctx.font='bold 6px monospace';ctx.textAlign='center';ctx.fillText('SPEAK',x+8,y+6);
+              ctx.fillStyle='#1e3a8a';ctx.fillRect(x+1,y+10,14,6);
+              ctx.fillStyle='#4338CA';ctx.fillRect(x+3,y+5,10,6);
+              // Megaphone icon
+              ctx.fillStyle='#FFD700';
+              ctx.fillRect(x+4,y+6,3,4); // handle
+              ctx.beginPath();ctx.moveTo(x+7,y+5);ctx.lineTo(x+13,y+3);ctx.lineTo(x+13,y+11);ctx.lineTo(x+7,y+9);ctx.closePath();ctx.fill();
+              // Sound waves
+              ctx.strokeStyle='rgba(255,255,255,0.6)';ctx.lineWidth=1;
+              ctx.beginPath();ctx.arc(x+14,y+7,3,Math.PI*-0.4,Math.PI*0.4);ctx.stroke();
               ctx.globalAlpha=1;
             }
           };

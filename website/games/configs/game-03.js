@@ -14,7 +14,7 @@
         phase: 'title', lang, score: 0, goal: 20, lives: 3,
         spawnTimer: 0, items: [], speed: 80, timeLeft: 90
       };
-      engine.player = engine.addEntity(new Sprite({ x: 60, y: 240, w: 32, h: 16, speed: 150, color: '#8B4513' }));
+      engine.player = engine.addEntity(new Sprite({ x: 60, y: 240, w: 32, h: 16, speed: 150, color: '#8B4513', skinColor: '#6B4226', hairColor: '#1a1a1a', isFemale: true }));
       engine.player.render = function(ctx) {
         const x=Math.floor(this.x), y=Math.floor(this.y);
         ctx.fillStyle='#8B4513'; ctx.fillRect(x,y+4,32,10); // hull
@@ -30,7 +30,8 @@
     onUpdate(engine, dt) {
       const st = engine.gameState;
       if (st.phase==='title') { if (engine.keys['Space']||engine.keys['Enter']) { st.phase='playing'; engine.audio.click(); engine.audio.startMusic('fish'); engine.ui.showDialog(st.lang==='en'?'Scoop plastic from the ocean! Avoid the fish!':'Recoge el plastico del oceano! Evita los peces!',3); } return; }
-      if (st.phase==='win'||st.phase==='lose') return;
+      if (st.phase==='win') return;
+      if (st.phase==='lose') { if (engine.keys['KeyR']) { engine.stop(); document.getElementById('gameOverlay').classList.remove('active'); setTimeout(() => openGame(2), 100); } return; }
 
       const input = engine.getInput();
       engine.player.y = Math.max(30, Math.min(engine.height - 40, engine.player.y + input.dy * engine.player.speed * dt));
@@ -51,19 +52,41 @@
         }));
         item.vx = -(st.speed + Math.random() * 30);
         item.isFish = isFish;
-        const origRender = item.render.bind(item);
         item.render = function(ctx) {
           if (!this.visible) return;
           const x=Math.floor(this.x), y=Math.floor(this.y);
           if (this.isFish) {
-            ctx.fillStyle='#FF6347'; ctx.fillRect(x+4,y,10,8); // body
-            ctx.fillStyle='#FF4500'; ctx.fillRect(x,y+2,5,4); // tail
-            ctx.fillStyle='#000'; ctx.fillRect(x+12,y+2,2,2); // eye
+            // Fish body
+            ctx.fillStyle='#FF6347';
+            ctx.fillRect(x+4,y+1,9,7);
+            // Tail fin (triangle via rects)
+            ctx.fillStyle='#FF4500';
+            ctx.fillRect(x,y+1,4,2);
+            ctx.fillRect(x,y+5,4,2);
+            ctx.fillRect(x+1,y+3,3,2);
+            // Fin on top
+            ctx.fillStyle='#FF6347';
+            ctx.fillRect(x+6,y,4,2);
+            // Eye
+            ctx.fillStyle='#000';
+            ctx.fillRect(x+11,y+2,2,2);
+            // Pupil shine
+            ctx.fillStyle='#fff';
+            ctx.fillRect(x+11,y+2,1,1);
           } else {
-            ctx.fillStyle = Math.random()>0.5?'#aaa':'#bbb';
-            ctx.fillRect(x,y,10,10);
-            ctx.fillStyle='rgba(0,0,0,0.2)';
-            ctx.fillRect(x+2,y+2,6,6);
+            // Plastic bag icon — translucent bag shape
+            ctx.fillStyle='rgba(180,220,255,0.85)';
+            ctx.fillRect(x+2,y+4,8,7);   // bag body
+            ctx.fillRect(x+3,y+2,6,3);   // bag neck
+            ctx.fillStyle='rgba(100,160,220,0.6)';
+            ctx.fillRect(x+4,y+5,4,4);   // bag contents shadow
+            // Tie knot
+            ctx.fillStyle='#6aa8d0';
+            ctx.fillRect(x+4,y+1,4,2);
+            // Outline
+            ctx.strokeStyle='rgba(80,140,200,0.9)';
+            ctx.lineWidth=1;
+            ctx.strokeRect(x+2,y+2,8,9);
           }
         };
         st.items.push(item);
@@ -96,14 +119,6 @@
 
       // Speed up over time
       st.speed = 80 + engine.gameTime * 3;
-
-      // Retry
-      if (st.phase==='lose' && engine.keys['KeyR']) {
-        engine.stop();
-        const overlay = document.getElementById('gameOverlay');
-        overlay.classList.remove('active');
-        setTimeout(() => openGame(2), 100);
-      }
 
       engine.ui.setHUD([
         {icon:'Plastic: ',value:`${st.score}/${st.goal}`,color:'#87CEEB'},

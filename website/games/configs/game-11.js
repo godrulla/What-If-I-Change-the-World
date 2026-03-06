@@ -51,7 +51,7 @@
       const lang=window.lang||'en';
       const puzzles=lang==='en'?PUZZLES_EN:PUZZLES_ES;
       engine.gameState={phase:'title',lang,solved:0,total:5,puzzles,activePuzzle:null,selectedOpt:0,timeLeft:60,invincible:0};
-      engine.player=engine.addEntity(new Sprite({x:20*16,y:15*16,w:16,h:16,speed:100,color:'#B45309'}));
+      engine.player=engine.addEntity(new Sprite({x:20*16,y:15*16,w:16,h:16,speed:100,color:'#B45309',skinColor:'#8B5E3C',hairColor:'#1a1a1a'}));
       engine.puzzleSprites=[];
       const map=engine.tileMap;
       for(let r=0;r<map.rows;r++) for(let c=0;c<map.cols;c++){
@@ -59,10 +59,30 @@
         if(obj>=1&&obj<=5){
           const s=engine.addEntity(new Sprite({x:c*16,y:r*16,w:16,h:16,color:'#B45309',type:'puzzle'}));
           s.puzzleIndex=obj-1;s.solved=false;
-          s.render=function(ctx){if(!this.visible)return;const x=Math.floor(this.x),y=Math.floor(this.y);
-            ctx.fillStyle=this.solved?'#22C55E':'#B45309';ctx.fillRect(x,y,16,16);
-            ctx.fillStyle='#fff';ctx.font='bold 10px monospace';ctx.textAlign='center';
-            ctx.fillText(this.solved?'OK':'?',x+8,y+12);
+          s.render=function(ctx){
+            if(!this.visible)return;
+            const x=Math.floor(this.x),y=Math.floor(this.y);
+            if(this.solved){
+              // Solved chalkboard - green glow
+              ctx.fillStyle='#14532d';ctx.fillRect(x,y+1,16,14);
+              ctx.fillStyle='#22C55E';ctx.fillRect(x+1,y+2,14,11);
+              // Chalk checkmark
+              ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();
+              ctx.moveTo(x+3,y+8);ctx.lineTo(x+7,y+12);ctx.lineTo(x+13,y+4);
+              ctx.stroke();ctx.lineWidth=1;
+            } else {
+              // Chalkboard with number
+              const pulse=Math.sin(Date.now()/400+this.puzzleIndex)*0.15+0.85;
+              ctx.globalAlpha=pulse;
+              ctx.fillStyle='#1e293b';ctx.fillRect(x,y+1,16,14); // board frame
+              ctx.fillStyle='#2a3a2a';ctx.fillRect(x+1,y+2,14,11); // board surface
+              // Chalk number
+              ctx.fillStyle='rgba(255,255,255,0.9)';ctx.font='bold 9px monospace';ctx.textAlign='center';
+              ctx.fillText(String(this.puzzleIndex+1),x+8,y+11);
+              // Chalk dust at bottom
+              ctx.fillStyle='rgba(255,255,255,0.3)';ctx.fillRect(x+2,y+12,12,1);
+              ctx.globalAlpha=1;
+            }
           };
           engine.puzzleSprites.push(s);
         }

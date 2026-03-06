@@ -35,11 +35,16 @@ class GameLoader {
     };
     window.addEventListener('keydown', this._onKey);
 
-    // Handle tap-to-start on mobile (canvas tap = Space press)
+    // Handle tap-to-start and tap-to-retry on mobile
     this.canvas.addEventListener('touchstart', (e) => {
-      if (this.currentEngine && this.currentEngine.gameState && this.currentEngine.gameState.phase === 'title') {
+      if (!this.currentEngine || !this.currentEngine.gameState) return;
+      const phase = this.currentEngine.gameState.phase;
+      if (phase === 'title') {
         this.currentEngine.keys['Space'] = true;
         setTimeout(() => { if (this.currentEngine) this.currentEngine.keys['Space'] = false; }, 100);
+      } else if (phase === 'lose') {
+        this.currentEngine.keys['KeyR'] = true;
+        setTimeout(() => { if (this.currentEngine) this.currentEngine.keys['KeyR'] = false; }, 100);
       }
     }, { passive: true });
   }

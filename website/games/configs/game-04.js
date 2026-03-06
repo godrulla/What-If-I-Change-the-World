@@ -42,7 +42,7 @@
     onInit(engine) {
       const lang = window.lang||'en';
       engine.gameState = {phase:'title',lang,found:0,total:8,following:[],delivered:0,timeLeft:120,invincible:0};
-      engine.player = engine.addEntity(new Sprite({x:25*16,y:10*16,w:16,h:16,speed:100,color:'#E8553A'}));
+      engine.player = engine.addEntity(new Sprite({x:25*16,y:10*16,w:16,h:16,speed:100,color:'#E8553A',skinColor:'#8B5E3C',hairColor:'#1a1a1a',isFemale:true}));
       engine.kids = [];
       KID_POSITIONS.forEach(([c,r],i)=>{
         const kid = engine.addEntity(new Sprite({x:c*16,y:r*16,w:12,h:12,speed:0,color:KID_COLORS[i],type:'kid'}));
@@ -52,19 +52,28 @@
         kid.render = function(ctx) {
           if (!this.visible) return;
           const x=Math.floor(this.x),y=Math.floor(this.y);
-          // Bounce
-          const bounce = this.followTarget ? Math.sin(Date.now()/200+this.kidIndex)*2 : 0;
-          ctx.fillStyle=this.color;
-          ctx.fillRect(x+1,y+3+bounce,10,8);
+          const bob = this.followTarget ? Math.sin(Date.now()/500+this.kidIndex)*1.5 : 0;
+          // Head
           ctx.fillStyle='#FFDAB9';
-          ctx.fillRect(x+2,y+bounce,8,5);
+          ctx.fillRect(x+5,y+1+bob,6,5);
+          // Hair
+          ctx.fillStyle='#4a2e00';
+          ctx.fillRect(x+5,y+bob,6,2);
+          // Eyes
           ctx.fillStyle='#000';
-          ctx.fillRect(x+3,y+2+bounce,2,1);
-          ctx.fillRect(x+7,y+2+bounce,2,1);
+          ctx.fillRect(x+6,y+3+bob,1,1);
+          ctx.fillRect(x+9,y+3+bob,1,1);
+          // Body — shirt color cycles through KID_COLORS palette
+          ctx.fillStyle=['#E8553A','#2E86AB','#22C55E','#F4A623','#9F1239','#7C3AED','#0891B2','#B45309'][this.kidIndex % 8];
+          ctx.fillRect(x+4,y+6+bob,8,6);
+          // Legs
+          ctx.fillStyle='#4a3728';
+          ctx.fillRect(x+5,y+12+bob,3,3);
+          ctx.fillRect(x+9,y+12+bob,3,3);
           // Exclamation if not following
           if (!this.followTarget) {
             const blink = Math.floor(Date.now()/400)%2;
-            if (blink) { ctx.fillStyle='#FFD700'; ctx.font='bold 10px monospace'; ctx.fillText('!',x+4,y-6); }
+            if (blink) { ctx.fillStyle='#FFD700'; ctx.font='bold 10px monospace'; ctx.textAlign='left'; ctx.fillText('!',x+4,y-4+bob); }
           }
         };
         engine.kids.push(kid);
@@ -100,6 +109,7 @@
       const st=engine.gameState;
       if (st.phase==='title'){if(engine.keys['Space']||engine.keys['Enter']){st.phase='playing';engine.audio.click();engine.audio.startMusic('school');engine.ui.showDialog(st.lang==='en'?'Find 8 kids around town and lead them back to school!':'Encuentra 8 ninos por el pueblo y llevalos de vuelta a la escuela!',4);}return;}
       if (st.phase==='win') return;
+      if (st.phase === 'lose') { if (engine.keys['KeyR']) { engine.stop(); document.getElementById('gameOverlay').classList.remove('active'); setTimeout(() => openGame(3), 100); } return; }
       const input=engine.getInput();
       engine.player.update(dt,input.dx,input.dy,engine.tileMap);
       engine.followCamera(engine.player);
@@ -161,7 +171,7 @@
           engine.ui.showNotification(st.lang==='en'?`Delivered! ${st.delivered}/${st.total}`:`Entregados! ${st.delivered}/${st.total}`,2);
         }
       }
-      if (st.phase === 'lose' && engine.keys['KeyR']) { engine.stop(); document.getElementById('gameOverlay').classList.remove('active'); setTimeout(() => openGame(3), 100); }
+
 
       engine.ui.setHUD([
         {icon:st.lang==='en'?'Found: ':'Hallados: ',value:`${st.found}/${st.total}`,color:'#FFD700'},

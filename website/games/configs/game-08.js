@@ -14,7 +14,7 @@
         scrollX: 0, scrollSpeed: 100, platforms: [], workers: [], obstacles: [],
         groundY: 400, jumpVel: 0, onGround: true, gravity: 600
       };
-      engine.player = engine.addEntity(new Sprite({ x: 80, y: 384, w: 16, h: 16, speed: 0, color: '#9F1239' }));
+      engine.player = engine.addEntity(new Sprite({ x: 80, y: 384, w: 16, h: 16, speed: 0, color: '#9F1239', skinColor: '#8B5E3C', hairColor: '#1a1a1a' }));
       // Generate level
       const st = engine.gameState;
       // Platforms

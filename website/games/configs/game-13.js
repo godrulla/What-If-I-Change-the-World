@@ -51,7 +51,7 @@
       const lang=window.lang||'en';
       const memories=lang==='en'?MEMORIES_EN:MEMORIES_ES;
       engine.gameState={phase:'title',lang,memories,collected:0,total:6,arrived:false,timeLeft:120,invincible:0};
-      engine.player=engine.addEntity(new Sprite({x:5*16,y:40*16,w:16,h:16,speed:90,color:'#7C3AED'}));
+      engine.player=engine.addEntity(new Sprite({x:5*16,y:40*16,w:16,h:16,speed:90,color:'#7C3AED',skinColor:'#C68642',hairColor:'#2d1b00'}));
       engine.memorySprites=[];
       const map=engine.tileMap;
       for(let r=0;r<map.rows;r++) for(let c=0;c<map.cols;c++){
