@@ -14,16 +14,21 @@ class RetroAudio {
 
   _initOnInteraction() {
     const init = () => {
-      if (this.ctx) return;
-      this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-      this.sfxGain = this.ctx.createGain();
-      this.sfxGain.gain.value = 0.3;
-      this.sfxGain.connect(this.ctx.destination);
-      this.musicGain = this.ctx.createGain();
-      this.musicGain.gain.value = 0.12;
-      this.musicGain.connect(this.ctx.destination);
+      if (!this.ctx) {
+        this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        this.sfxGain = this.ctx.createGain();
+        this.sfxGain.gain.value = 0.3;
+        this.sfxGain.connect(this.ctx.destination);
+        this.musicGain = this.ctx.createGain();
+        this.musicGain.gain.value = 0.12;
+        this.musicGain.connect(this.ctx.destination);
+      }
+      // iOS/mobile requires resume() within a user gesture
+      if (this.ctx.state === 'suspended') {
+        this.ctx.resume();
+      }
     };
-    ['click', 'touchstart', 'keydown'].forEach(evt =>
+    ['click', 'touchstart', 'keydown', 'touchend'].forEach(evt =>
       document.addEventListener(evt, init, { once: false, passive: true })
     );
   }

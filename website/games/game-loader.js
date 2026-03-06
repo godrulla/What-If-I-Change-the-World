@@ -77,8 +77,13 @@ class GameLoader {
     // Update sound button label
     this._updateSoundBtn();
 
-    // Play click sound
-    if (window.retroAudio) window.retroAudio.click();
+    // Wake up audio (iOS needs resume in user gesture) and play click
+    if (window.retroAudio) {
+      if (window.retroAudio.ctx && window.retroAudio.ctx.state === 'suspended') {
+        window.retroAudio.ctx.resume();
+      }
+      window.retroAudio.click();
+    }
 
     // Create engine
     this.currentEngine = new GameEngine(this.canvas, config);
