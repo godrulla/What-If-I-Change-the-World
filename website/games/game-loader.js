@@ -78,24 +78,10 @@ class GameLoader {
 
     const config = window.GAME_CONFIGS[configId];
 
-    // Show overlay + lock viewport on mobile
+    // Show overlay + lock scroll
     this.overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
     document.documentElement.style.overflow = 'hidden';
-    document.documentElement.style.height = '100%';
-    document.body.style.height = '100%';
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
-    document.body.style.top = '0';
-
-    // Request fullscreen on mobile (user gesture context)
-    if (window.innerWidth <= 768) {
-      const el = document.documentElement;
-      const rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
-      if (rfs) {
-        try { rfs.call(el); } catch(e) { /* ignore if blocked */ }
-      }
-    }
 
     // Update sound button label
     this._updateSoundBtn();
@@ -121,18 +107,7 @@ class GameLoader {
     }
     this.overlay.classList.remove('active');
     document.body.style.overflow = '';
-    document.body.style.height = '';
-    document.body.style.position = '';
-    document.body.style.width = '';
-    document.body.style.top = '';
     document.documentElement.style.overflow = '';
-    document.documentElement.style.height = '';
-
-    // Exit fullscreen if we entered it
-    if (document.fullscreenElement || document.webkitFullscreenElement) {
-      const eFS = document.exitFullscreen || document.webkitExitFullscreen;
-      if (eFS) { try { eFS.call(document); } catch(e) {} }
-    }
   }
 
   _getComingSoonMsg(idx) {

@@ -25,29 +25,9 @@ class GameEngine {
   constructor(canvas, config) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
-
-    // On mobile (narrow screens), adapt canvas to screen aspect ratio
-    // so it fills the entire viewport with no letterboxing
     this.isMobile = window.innerWidth <= 768;
-    if (this.isMobile) {
-      const screenW = window.innerWidth;
-      const screenH = window.innerHeight;
-      const aspect = screenW / screenH;
-      // Keep height at 480 baseline, adjust width to match screen aspect
-      // Or keep width at 640 and adjust height — pick whichever gives more game area
-      if (aspect < 4/3) {
-        // Portrait or square-ish: keep width 640, increase height
-        this.width = 640;
-        this.height = Math.round(640 / aspect);
-      } else {
-        // Landscape wider than 4:3: keep height 480, increase width
-        this.width = Math.round(480 * aspect);
-        this.height = 480;
-      }
-    } else {
-      this.width = 640;
-      this.height = 480;
-    }
+    this.width = 640;
+    this.height = 480;
     this.canvas.width = this.width;
     this.canvas.height = this.height;
     this.ctx.imageSmoothingEnabled = false;
